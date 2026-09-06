@@ -51,19 +51,48 @@
   }
   .home-anchor:hover { opacity: 1; text-decoration: none; }
 
-  /* umbral hacia otra habitación — exploración, todavía sin destino definido */
-  .umbral {
+  /* umbrales — objetos reales de la casa, apilados en vertical sobre la misma línea que la puerta de Archivos */
+  .umbrales {
     position: fixed;
-    bottom: 40px;
-    right: 48px;
-    width: 30px;
-    height: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 4vw;
     z-index: 10;
-    opacity: 0.28;
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 22px;
   }
-  .umbral:hover { opacity: 0.65; transform: translateX(-3px); }
-  .umbral svg { width: 100%; height: 100%; }
+  .umbral {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+  }
+  .umbral img {
+    height: 78px;
+    width: auto;
+    display: block;
+    opacity: 0.75;
+    filter: drop-shadow(0 8px 14px rgba(32,29,25,0.18));
+    transition: transform 0.35s cubic-bezier(.2,.8,.3,1), opacity 0.35s ease;
+  }
+  .umbral-label {
+    font-family: 'Cardinal', serif;
+    font-size: 1rem;
+    color: var(--ink);
+    opacity: 0.75;
+  }
+  .umbral:hover img {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+
+  @media (max-width: 720px) {
+    .umbrales { gap: 14px; right: 3vw; }
+    .umbral img { height: 56px; }
+  }
 
   .stage {
     position: relative;
@@ -118,7 +147,6 @@
   @media (max-width: 720px) {
     .stage { transform: scale(0.75); }
     .home-anchor { top: 24px; left: 24px; font-size: 1.35rem; }
-    .umbral { bottom: 24px; right: 28px; }
   }
 </style>
 </head>
@@ -128,18 +156,30 @@
 
 <a href="index.html" class="home-anchor">mi casa</a>
 
-<!-- Umbral exploratorio: todavía sin destino definido. Cuando decidamos
-     qué habitación conecta desde acá, cambiar el href="#" por la página real. -->
-<a href="#" class="umbral" aria-label="ir a otra habitación (exploración)">
-  <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M12 8 L12 32 M12 8 L28 8 L28 32 L12 32" stroke="#1C1C1A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-  </svg>
-</a>
+<!-- Umbrales: objetos reales de la casa que llevan a cada una de las otras habitaciones -->
+<div class="umbrales">
+  <a href="pensamientos.html" class="umbral" aria-label="ir a Pensamientos">
+    <img src="assets/buzon-pensamientos.png" alt="">
+    <span class="umbral-label">pensamientos</span>
+  </a>
+  <a href="escuchas.html" class="umbral" aria-label="ir a Escuchas">
+    <img src="assets/puerta-escuchas.png" alt="">
+    <span class="umbral-label">escuchas</span>
+  </a>
+  <a href="trabajo.html" class="umbral" aria-label="ir a Trabajo">
+    <img src="assets/ventana-vieja-trabajo.png" alt="">
+    <span class="umbral-label">trabajo</span>
+  </a>
+  <a href="archivos.html" class="umbral" aria-label="ir a Archivos">
+    <img src="assets/puerta-archivos.png" alt="">
+    <span class="umbral-label">archivos</span>
+  </a>
+</div>
 
 <div class="stage">
-  <img class="photo photo--cielo" src="assets/video/img/10120018.jpg" alt="">
-  <img class="photo photo--iglesia" src="assets/video/img/10100006.JPG" alt="">
-  <img class="photo photo--bodegon" src="assets/video/img/10100014.JPG" alt="">
+  <img class="photo photo--cielo" src="assets/10120018.jpg" alt="">
+  <img class="photo photo--iglesia" src="assets/10100006.JPG" alt="">
+  <img class="photo photo--bodegon" src="assets/10100014.JPG" alt="">
 </div>
 
 </body>
