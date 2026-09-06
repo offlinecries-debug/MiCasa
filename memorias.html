@@ -5,25 +5,58 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Memorias — Mi Casa</title>
 <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="memorias.css">
 </head>
 <body>
 <div class="layout">
-  <aside class="sidebar">
-    <nav class="primary-nav">
-      <ul>
-        <li><a href="index.html">Inicio</a></li>
-        <li><a href="memorias.html" class="active">Memorias</a></li>
-        <li><a href="archivos.html">Archivos</a></li>
-        <li><a href="pensamientos.html">Pensamientos</a></li>
-        <li><a href="escuchas.html">Escuchas</a></li>
-        <li><a href="trabajo.html">Trabajo</a></li>
-      </ul>
-    </nav>
-  </aside>
-  <main>
-    <h1>Memorias</h1>
-    <p>[ Acá van tus recuerdos, fotos viejas, cosas del pasado — lo que quieras guardar acá ]</p>
-  </main>
+<aside class="sidebar">
+<nav class="primary-nav">
+<ul>
+<li><a href="index.html">Inicio</a></li>
+<li><a href="memorias.html" class="active">Memorias</a></li>
+<li><a href="archivos.html">Archivos</a></li>
+<li><a href="pensamientos.html">Pensamientos</a></li>
+<li><a href="escuchas.html">Escuchas</a></li>
+<li><a href="trabajo.html">Trabajo</a></li>
+</ul>
+</nav>
+</aside>
+<main>
+<h1 class="memorias-title">memorias</h1>
+<p class="memorias-intro">Fotos analogicas, ordenadas por año. Toca cualquiera para verla mas grande.</p>
+
+<section class="year-block">
+<h2 class="year-heading">1988</h2>
+<div class="photo-scatter">
+<div class="photo-card" style="--rot:-4deg;"><img src="assets/ph1.jpg" alt="" onclick="openLightbox(this.src)"><p class="photo-caption">Chieti</p></div>
+<div class="photo-card" style="--rot:3deg;"><img src="assets/ph2.jpg" alt="" onclick="openLightbox(this.src)"><p class="photo-caption">Roma</p></div>
 </div>
+</section>
+
+<section class="year-block">
+<h2 class="year-heading">1995</h2>
+<div class="photo-scatter">
+<div class="photo-card" style="--rot:2deg;"><img src="assets/ph3.jpg" alt="" onclick="openLightbox(this.src)"><p class="photo-caption">Napoles</p></div>
+<div class="photo-card" style="--rot:-3deg;"><img src="assets/ph4.jpg" alt="" onclick="openLightbox(this.src)"><p class="photo-caption">Bari</p></div>
+<div class="photo-card" style="--rot:5deg;"><img src="assets/ph5.jpg" alt="" onclick="openLightbox(this.src)"><p class="photo-caption">Salerno</p></div>
+</div>
+</section>
+
+<section class="year-block">
+<h2 class="year-heading">2001</h2>
+<div class="photo-scatter">
+<div class="photo-card" style="--rot:-2deg;"><img src="assets/ph6.jpg" alt="" onclick="openLightbox(this.src)"><p class="photo-caption">Milan</p></div>
+</div>
+</section>
+
+</main>
+</div>
+<div id="lightbox" class="lightbox" onclick="closeLightbox()">
+<img id="lightbox-img" src="">
+</div>
+<script>
+function openLightbox(src){document.getElementById('lightbox-img').src=src;document.getElementById('lightbox').classList.add('active');}
+function closeLightbox(){document.getElementById('lightbox').classList.remove('active');}
+</script>
 </body>
 </html>
