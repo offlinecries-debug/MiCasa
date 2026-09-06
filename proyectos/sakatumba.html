@@ -122,6 +122,18 @@
     border: none;
   }
 
+  .project-video-vimeo {
+    margin: 30px 0;
+    filter: drop-shadow(0 10px 20px rgba(28,28,26,0.18));
+  }
+  .project-video-caption {
+    font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+    font-size: 0.78rem;
+    color: var(--mist);
+    margin-top: -18px;
+    margin-bottom: 28px;
+  }
+
   .project-photo {
     position: relative;
     margin: 24px 0;
@@ -202,24 +214,26 @@
 <div class="project-column">
   <a href="../archivos.html" class="back-link">&larr; volver a archivos</a>
 
-  <div class="project-meta">[ año ] · video (3 partes)</div>
+  <div class="project-meta">2025 · video (3 partes)</div>
   <h1>SAKATUMBA</h1>
 
-  <p>Tres videos de este proyecto.</p>
-
   <div class="project-photo">
-    <img src="../assets/proyectos/sakatumba-1.jpg" alt="">
+    <img src="sakatumba-1.jpg" alt="">
   </div>
 
-  <!-- VIDEO 1 -->
-  <div class="project-video">
-    <iframe src="https://www.youtube.com/embed/VIDEO_ID_1" title="SAKATUMBA — parte 1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  <!-- VIDEO 1 — Liverpool -->
+  <div class="project-video-vimeo">
+    <div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1116325091?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;autoplay=1&amp;muted=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="sakatumba | liverpool"></iframe></div>
+    <script src="https://player.vimeo.com/api/player.js"></script>
   </div>
+  <div class="project-video-caption">liverpool</div>
 
-  <!-- VIDEO 2 -->
-  <div class="project-video">
-    <iframe src="https://www.youtube.com/embed/VIDEO_ID_2" title="SAKATUMBA — parte 2" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  <!-- VIDEO 2 — Moscú -->
+  <div class="project-video-vimeo">
+    <div style="padding:75% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1094953105?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="sakatumba | moscú"></iframe></div>
+    <script src="https://player.vimeo.com/api/player.js"></script>
   </div>
+  <div class="project-video-caption">moscú</div>
 
   <!-- VIDEO 3 -->
   <div class="project-video">
