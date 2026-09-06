@@ -167,6 +167,13 @@
   }
   .entry-file:hover { opacity: 1; }
 
+  .entry-gallery {
+    display: flex;
+    gap: 14px;
+    margin: 30px 0;
+  }
+  .entry-gallery .entry-photo { margin: 0; flex: 1; }
+
   @media (max-width: 720px) {
     /* PENDIENTE (pase general de mobile): en celular los umbrales verticales
        se superponen con el contenido. Reubicar en fila horizontal
@@ -175,6 +182,7 @@
     .umbrales { gap: 14px; right: 3vw; }
     .umbral img { height: 56px; }
     .home-anchor { top: 24px; left: 24px; font-size: 1.35rem; }
+    .entry-gallery { flex-direction: column; }
   }
 </style>
 </head>
@@ -215,26 +223,19 @@
 
   <div class="entry">
     <div class="entry-meta">sábado · 05.09.2026 · 12:00</div>
-    <h2>Bienvenida a este espacio</h2>
+    <h2>Principios y variantes</h2>
 
-    <p>Este es el primer post de este espacio. Reemplazá este texto por lo que quieras contar: algo que hiciste hoy, un proyecto en el que estás trabajando, o simplemente cómo estuvo tu día.</p>
+    <p>hola!! acá dejo unos bocetos del diseño de la página principal.</p>
 
-    <!-- Para agregar una foto, descomentá y completá esto:
-    <div class="entry-photo entry-photo--tilt">
-      <img src="assets/blog/nombre-de-la-foto.jpg" alt="">
+    <div class="entry-gallery">
+      <div class="entry-photo">
+        <img src="assets/blog/boceto-portada-1.jpg" alt="">
+      </div>
+      <div class="entry-photo">
+        <img src="assets/blog/boceto-portada-2.jpg" alt="">
+      </div>
     </div>
-    <div class="entry-caption">[ caption opcional ]</div>
-    -->
-
-    <!-- Para una anotación chica y aislada:
-    <div class="entry-annotation">[ anotación ]</div>
-    -->
-
-    <!-- Para un archivo adjunto:
-    <a class="entry-file" href="assets/blog/nombre-del-archivo.pdf" target="_blank" rel="noopener">
-      [ archivo adjunto · nombre del documento ]
-    </a>
-    -->
+    <div class="entry-caption">dibujos by miqueas</div>
 
     <p>Para escribir una entrada nueva, copiá este bloque completo, pegalo arriba, y cambiá la fecha, el título y el texto.</p>
   </div>
