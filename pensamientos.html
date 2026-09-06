@@ -1,19 +1,41 @@
-{
-  "title": "Bienvenida a este espacio",
-  "date": "2026-09-05T12:00:00-03:00",
-  "draft": false,
-  "blocks": [
-    {
-      "type": "text",
-      "content": "Este es el primer post de prueba, ahora migrado al nuevo sistema. Reemplazá este contenido por lo que quieras contar: algo que hiciste hoy, un proyecto en el que estás trabajando, o simplemente cómo estuvo tu día."
-    },
-    {
-      "type": "text",
-      "content": "Para escribir uno nuevo, ya no hace falta duplicar ningún archivo — se crea directamente desde /admin, con el botón \"Nueva entrada\"."
-    }
-  ]
-}
-  /* ancla de vuelta a la casa — Cardinal, negro, discreta */
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pensamientos — Mi Casa</title>
+<link rel="stylesheet" href="style.css">
+<style>
+
+  :root {
+    --room-paper: #EEE8DC;
+    --room-paper-deep: #E2D9C8;
+  }
+
+  html, body {
+    margin: 0;
+    min-height: 100%;
+  }
+
+  body {
+    background:
+      radial-gradient(ellipse 120% 90% at 28% 0%, rgba(255,253,248,0.45), transparent 62%),
+      radial-gradient(ellipse 140% 100% at 82% 100%, rgba(206,192,166,0.3), transparent 58%),
+      linear-gradient(160deg, var(--room-paper) 0%, var(--room-paper-deep) 100%);
+    background-attachment: fixed;
+    font-family: Georgia, 'Times New Roman', serif;
+    color: var(--ink);
+  }
+
+  .grain {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.045;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
   .home-anchor {
     position: fixed;
     top: 36px;
@@ -23,13 +45,10 @@
     color: var(--ink);
     text-decoration: none;
     opacity: 0.82;
-    letter-spacing: 0.01em;
-    transition: opacity 0.25s ease;
     z-index: 10;
   }
   .home-anchor:hover { opacity: 1; text-decoration: none; }
 
-  /* umbrales — objetos reales de la casa, apilados en vertical, centrados en la pantalla */
   .umbrales {
     position: fixed;
     top: 50%;
@@ -41,49 +60,121 @@
     align-items: center;
     gap: 22px;
   }
-  .umbral {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 6px;
-    text-decoration: none;
-  }
+  .umbral { display: flex; flex-direction: column; align-items: center; gap: 6px; text-decoration: none; }
   .umbral img {
-    height: 78px;
-    width: auto;
-    display: block;
-    opacity: 0.75;
+    height: 78px; width: auto; display: block; opacity: 0.75;
     filter: drop-shadow(0 8px 14px rgba(32,29,25,0.18));
     transition: transform 0.35s cubic-bezier(.2,.8,.3,1), opacity 0.35s ease;
   }
-  .umbral-label {
-    font-family: 'Cardinal', serif;
-    font-size: 1rem;
-    color: var(--ink);
-    opacity: 0.75;
-  }
-  .umbral:hover img {
-    transform: scale(1.1);
-    opacity: 1;
-  }
+  .umbral-label { font-family: 'Cardinal', serif; font-size: 1rem; color: var(--ink); opacity: 0.75; }
+  .umbral:hover img { transform: scale(1.1); opacity: 1; }
 
-  /* contenido existente de la habitación — sin rediseñar todavía */
-  .room-content {
+  /* ---------- columna del blog ---------- */
+  .blog-column {
     position: relative;
     z-index: 5;
-    max-width: 62ch;
-    padding: 15vh 10vw 15vh 10vw;
+    max-width: 620px;
+    margin: 0 auto;
+    padding: 16vh 24px 18vh 24px;
   }
-  .room-content h1 { color: var(--ink); }
+
+  .blog-title {
+    font-family: 'Cardinal', serif;
+    font-size: 1.1rem;
+    color: var(--mist);
+    margin-bottom: 6vh;
+    opacity: 0.85;
+  }
+
+  .entry + .entry {
+    margin-top: 12vh;
+    padding-top: 8vh;
+    border-top: 1px solid rgba(28,28,26,0.10);
+  }
+
+  .entry-meta {
+    font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+    font-size: 0.78rem;
+    color: var(--mist);
+    letter-spacing: 0.02em;
+  }
+
+  .entry h2 {
+    font-family: Georgia, serif;
+    font-weight: 400;
+    font-size: 1.7rem;
+    line-height: 1.2;
+    margin: 10px 0 26px 0;
+  }
+
+  .entry p {
+    font-size: 1.02rem;
+    line-height: 1.65;
+    margin: 0 0 20px 0;
+    max-width: 58ch;
+  }
+
+  .entry-photo {
+    position: relative;
+    margin: 30px 0;
+    overflow: hidden;
+    filter: drop-shadow(0 8px 14px rgba(28,28,26,0.14));
+  }
+  .entry-photo img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .entry-photo::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    opacity: 0.035;
+    mix-blend-mode: multiply;
+    background-image: radial-gradient(circle, rgba(20,20,18,0.9) 1px, transparent 1.3px);
+    background-size: 5px 5px;
+  }
+  /* usá esta clase en algunas fotos para una inclinación leve, no en todas */
+  .entry-photo--tilt { transform: rotate(-0.6deg); width: 92%; }
+
+  .entry-caption {
+    font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+    font-size: 0.74rem;
+    color: var(--mist);
+    margin-top: -18px;
+    margin-bottom: 28px;
+  }
+
+  .entry-annotation {
+    font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+    font-size: 0.88rem;
+    color: var(--ink);
+    opacity: 0.8;
+    border-left: 2px solid rgba(28,28,26,0.25);
+    padding-left: 16px;
+    margin: 26px 0;
+  }
+
+  .entry-file {
+    display: inline-block;
+    font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+    font-size: 0.82rem;
+    color: var(--ink);
+    opacity: 0.75;
+    text-decoration: none;
+    border-bottom: 1px dotted rgba(28,28,26,0.4);
+    margin: 10px 0 26px 0;
+  }
+  .entry-file:hover { opacity: 1; }
 
   @media (max-width: 720px) {
     /* PENDIENTE (pase general de mobile): en celular los umbrales verticales
        se superponen con el contenido. Reubicar en fila horizontal
        abajo de la pantalla cuando ataquemos mobile en todo el sitio. */
+    .blog-column { padding: 12vh 20px 14vh 20px; max-width: 100%; }
     .umbrales { gap: 14px; right: 3vw; }
     .umbral img { height: 56px; }
     .home-anchor { top: 24px; left: 24px; font-size: 1.35rem; }
-    .room-content { padding: 12vh 6vw; }
   }
 </style>
 </head>
@@ -93,7 +184,6 @@
 
 <a href="index.html" class="home-anchor">mi casa</a>
 
-<!-- Umbrales: objetos reales de la casa que llevan a cada una de las otras habitaciones -->
 <div class="umbrales">
   <a href="memorias.html" class="umbral" aria-label="ir a Memorias">
     <img src="assets/ventana-redonda-memorias.png" alt="">
@@ -113,16 +203,42 @@
   </a>
 </div>
 
-<div class="room-content">
-  <h1>Pensamientos</h1>
-  <p style="color:var(--mist); margin-top:10px;">Cosas que hago, pienso o encuentro. Sin mucho filtro.</p>
-  <div class="post-list">
-    <div class="post-list-item">
-      <div class="date">5 de septiembre, 2026</div>
-      <a href="posts/2026-09-05-bienvenida.html" class="title" style="color:var(--ink); text-decoration:none;">Bienvenida a este espacio</a>
-      <div class="excerpt">Primer post de prueba.</div>
+<div class="blog-column">
+
+  <div class="blog-title">pensamientos</div>
+
+  <!-- Cada entrada nueva se agrega ACÁ ARRIBA de todo (más reciente primero).
+       Para escribir una nueva, copiá el bloque <div class="entry">...</div>
+       completo, pegalo arriba de este, y editá fecha/título/texto.
+       Para agregar una foto, anotación o archivo, mirá los ejemplos
+       comentados dentro del bloque de abajo. -->
+
+  <div class="entry">
+    <div class="entry-meta">sábado · 05.09.2026 · 12:00</div>
+    <h2>Bienvenida a este espacio</h2>
+
+    <p>Este es el primer post de este espacio. Reemplazá este texto por lo que quieras contar: algo que hiciste hoy, un proyecto en el que estás trabajando, o simplemente cómo estuvo tu día.</p>
+
+    <!-- Para agregar una foto, descomentá y completá esto:
+    <div class="entry-photo entry-photo--tilt">
+      <img src="assets/blog/nombre-de-la-foto.jpg" alt="">
     </div>
+    <div class="entry-caption">[ caption opcional ]</div>
+    -->
+
+    <!-- Para una anotación chica y aislada:
+    <div class="entry-annotation">[ anotación ]</div>
+    -->
+
+    <!-- Para un archivo adjunto:
+    <a class="entry-file" href="assets/blog/nombre-del-archivo.pdf" target="_blank" rel="noopener">
+      [ archivo adjunto · nombre del documento ]
+    </a>
+    -->
+
+    <p>Para escribir una entrada nueva, copiá este bloque completo, pegalo arriba, y cambiá la fecha, el título y el texto.</p>
   </div>
+
 </div>
 
 </body>
