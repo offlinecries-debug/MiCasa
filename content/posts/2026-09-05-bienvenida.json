@@ -1,0 +1,15 @@
+{
+  "title": "Bienvenida a este espacio",
+  "date": "2026-09-05T12:00:00-03:00",
+  "draft": false,
+  "blocks": [
+    {
+      "type": "text",
+      "content": "Este es el primer post de prueba, ahora migrado al nuevo sistema. Reemplazá este contenido por lo que quieras contar: algo que hiciste hoy, un proyecto en el que estás trabajando, o simplemente cómo estuvo tu día."
+    },
+    {
+      "type": "text",
+      "content": "Para escribir uno nuevo, ya no hace falta duplicar ningún archivo — se crea directamente desde /admin, con el botón \"Nueva entrada\"."
+    }
+  ]
+}
