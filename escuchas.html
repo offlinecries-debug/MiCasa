@@ -5,25 +5,197 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Escuchas — Mi Casa</title>
 <link rel="stylesheet" href="style.css">
+<style>
+
+  :root {
+    --room-paper: #EEE8DC;
+    --room-paper-deep: #E2D9C8;
+  }
+
+  html, body {
+    margin: 0;
+    min-height: 100%;
+  }
+
+  body {
+    background:
+      radial-gradient(ellipse 120% 90% at 28% 0%, rgba(255,253,248,0.45), transparent 62%),
+      radial-gradient(ellipse 140% 100% at 82% 100%, rgba(206,192,166,0.3), transparent 58%),
+      linear-gradient(160deg, var(--room-paper) 0%, var(--room-paper-deep) 100%);
+    background-attachment: fixed;
+  }
+
+  .grain {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.045;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .home-anchor {
+    position: fixed;
+    top: 36px;
+    left: 44px;
+    font-family: 'Cardinal', serif;
+    font-size: 1.65rem;
+    color: var(--ink);
+    text-decoration: none;
+    opacity: 0.82;
+    z-index: 10;
+  }
+  .home-anchor:hover { opacity: 1; text-decoration: none; }
+
+  .umbrales {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 4vw;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 22px;
+  }
+  .umbral { display: flex; flex-direction: column; align-items: center; gap: 6px; text-decoration: none; }
+  .umbral img {
+    height: 78px; width: auto; display: block; opacity: 0.75;
+    filter: drop-shadow(0 8px 14px rgba(32,29,25,0.18));
+    transition: transform 0.35s cubic-bezier(.2,.8,.3,1), opacity 0.35s ease;
+  }
+  .umbral-label { font-family: 'Cardinal', serif; font-size: 1rem; color: var(--ink); opacity: 0.75; }
+  .umbral:hover img { transform: scale(1.1); opacity: 1; }
+
+  /* ---------- el tocadiscos ---------- */
+  .room-content {
+    position: relative;
+    z-index: 5;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 12vh 24px;
+  }
+
+  .room-title {
+    font-family: 'Cardinal', serif;
+    font-size: 3rem;
+    color: var(--ink);
+    opacity: 0.88;
+    margin-bottom: 7vh;
+  }
+
+  .turntable {
+    width: 100%;
+    max-width: 460px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .vinyl-wrap {
+    width: 300px;
+    height: 300px;
+    margin-bottom: 40px;
+    filter: drop-shadow(0 14px 22px rgba(28,28,26,0.28));
+    z-index: 1;
+  }
+
+  .vinyl {
+    width: 100%;
+    height: 100%;
+    animation: spin 7s linear infinite;
+  }
+
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .vinyl { animation: none; }
+  }
+
+  .spotify-embed-wrap {
+    width: 100%;
+    z-index: 2;
+    filter: drop-shadow(0 10px 20px rgba(28,28,26,0.2));
+  }
+
+  .spotify-embed-wrap iframe {
+    display: block;
+    width: 100%;
+  }
+
+  @media (max-width: 720px) {
+    /* PENDIENTE (pase general de mobile): en celular los umbrales verticales
+       se superponen con el contenido. Reubicar en fila horizontal
+       abajo de la pantalla cuando ataquemos mobile en todo el sitio. */
+    .home-anchor { top: 24px; left: 24px; font-size: 1.35rem; }
+    .umbrales { gap: 14px; right: 3vw; }
+    .umbral img { height: 56px; }
+    .vinyl-wrap { width: 220px; height: 220px; margin-bottom: 28px; }
+    .room-title { font-size: 2.1rem; margin-bottom: 5vh; }
+  }
+</style>
 </head>
 <body>
-<div class="layout">
-  <aside class="sidebar">
-    <nav class="primary-nav">
-      <ul>
-        <li><a href="index.html">Inicio</a></li>
-        <li><a href="memorias.html">Memorias</a></li>
-        <li><a href="archivos.html">Archivos</a></li>
-        <li><a href="pensamientos.html">Pensamientos</a></li>
-        <li><a href="escuchas.html" class="active">Escuchas</a></li>
-        <li><a href="trabajo.html">Trabajo</a></li>
-      </ul>
-    </nav>
-  </aside>
-  <main>
-    <h1>Escuchas</h1>
-    <p>[ Acá van tus audios grabados. Cuando tengas uno, avisame y te ayudo a agregarlo como reproductor. ]</p>
-  </main>
+
+<div class="grain"></div>
+
+<a href="index.html" class="home-anchor">mi casa</a>
+
+<div class="umbrales">
+  <a href="memorias.html" class="umbral" aria-label="ir a Memorias">
+    <img src="assets/ventana-redonda-memorias.png" alt="">
+    <span class="umbral-label">memorias</span>
+  </a>
+  <a href="pensamientos.html" class="umbral" aria-label="ir a Pensamientos">
+    <img src="assets/buzon-pensamientos.png" alt="">
+    <span class="umbral-label">pensamientos</span>
+  </a>
+  <a href="trabajo.html" class="umbral" aria-label="ir a Trabajo">
+    <img src="assets/ventana-vieja-trabajo.png" alt="">
+    <span class="umbral-label">trabajo</span>
+  </a>
+  <a href="archivos.html" class="umbral" aria-label="ir a Archivos">
+    <img src="assets/puerta-archivos.png" alt="">
+    <span class="umbral-label">archivos</span>
+  </a>
 </div>
+
+<div class="room-content">
+  <div class="room-title">escuchas</div>
+
+  <div class="turntable">
+
+    <div class="vinyl-wrap">
+      <svg class="vinyl" viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="120" cy="120" r="118" fill="#1C1C1A"/>
+        <circle cx="120" cy="120" r="118" fill="none" stroke="#000000" stroke-width="1" opacity="0.4"/>
+        <!-- surcos -->
+        <circle cx="120" cy="120" r="106" fill="none" stroke="#3A3A36" stroke-width="1" opacity="0.55"/>
+        <circle cx="120" cy="120" r="97"  fill="none" stroke="#3A3A36" stroke-width="1" opacity="0.5"/>
+        <circle cx="120" cy="120" r="88"  fill="none" stroke="#3A3A36" stroke-width="1" opacity="0.55"/>
+        <circle cx="120" cy="120" r="79"  fill="none" stroke="#3A3A36" stroke-width="1" opacity="0.5"/>
+        <circle cx="120" cy="120" r="70"  fill="none" stroke="#3A3A36" stroke-width="1" opacity="0.55"/>
+        <!-- reflejo sutil -->
+        <path d="M60 40 A 100 100 0 0 1 130 22" stroke="#57574F" stroke-width="2" fill="none" opacity="0.35" stroke-linecap="round"/>
+        <!-- etiqueta central -->
+        <circle cx="120" cy="120" r="46" fill="#EEE8DC"/>
+        <circle cx="120" cy="120" r="46" fill="none" stroke="#1C1C1A" stroke-width="1" opacity="0.15"/>
+        <circle cx="120" cy="120" r="3.5" fill="#1C1C1A"/>
+      </svg>
+    </div>
+
+    <div class="spotify-embed-wrap">
+      <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/playlist/17PxWumufZYKiZQPybpWhx?utm_source=generator&si=31736f38d850405f" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+    </div>
+
+  </div>
+</div>
+
 </body>
 </html>
