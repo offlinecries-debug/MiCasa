@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LA MUERTE DE LEGO — Archivos — Mi Casa</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+
+  :root {
+    --room-paper: #EEE8DC;
+    --room-paper-deep: #E2D9C8;
+  }
+
+  html, body {
+    margin: 0;
+    min-height: 100%;
+  }
+
+  body {
+    background:
+      radial-gradient(ellipse 120% 90% at 28% 0%, rgba(255,253,248,0.45), transparent 62%),
+      radial-gradient(ellipse 140% 100% at 82% 100%, rgba(206,192,166,0.3), transparent 58%),
+      linear-gradient(160deg, var(--room-paper) 0%, var(--room-paper-deep) 100%);
+    background-attachment: fixed;
+    font-family: Georgia, 'Times New Roman', serif;
+    color: var(--ink);
+  }
+
+  .grain {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.045;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .home-anchor {
+    position: fixed;
+    top: 36px;
+    left: 44px;
+    font-family: 'Cardinal', serif;
+    font-size: 1.65rem;
+    color: var(--ink);
+    text-decoration: none;
+    opacity: 0.82;
+    z-index: 10;
+  }
+  .home-anchor:hover { opacity: 1; text-decoration: none; }
+
+  .umbrales {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 4vw;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 22px;
+  }
+  .umbral { display: flex; flex-direction: column; align-items: center; gap: 6px; text-decoration: none; }
+  .umbral img {
+    height: 78px; width: auto; display: block; opacity: 0.75;
+    filter: drop-shadow(0 8px 14px rgba(32,29,25,0.18));
+    transition: transform 0.35s cubic-bezier(.2,.8,.3,1), opacity 0.35s ease;
+  }
+  .umbral-label { font-family: 'Cardinal', serif; font-size: 1rem; color: var(--ink); opacity: 0.75; }
+  .umbral:hover img { transform: scale(1.1); opacity: 1; }
+
+  .project-column {
+    position: relative;
+    z-index: 5;
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 16vh 24px 18vh 24px;
+  }
+
+  .back-link {
+    font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+    font-size: 0.82rem;
+    color: var(--mist);
+    text-decoration: none;
+  }
+
+  .project-meta {
+    font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+    font-size: 0.78rem;
+    color: var(--mist);
+    letter-spacing: 0.02em;
+    margin-top: 22px;
+  }
+
+  .project-column h1 {
+    font-family: Georgia, serif;
+    font-weight: 400;
+    font-size: 2rem;
+    line-height: 1.2;
+    margin: 10px 0 30px 0;
+  }
+
+  .project-column p {
+    font-size: 1.02rem;
+    line-height: 1.65;
+    margin: 0 0 24px 0;
+    max-width: 60ch;
+  }
+
+  /* video embebido (YouTube/Vimeo) */
+  .project-video {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    margin: 30px 0;
+    filter: drop-shadow(0 10px 20px rgba(28,28,26,0.18));
+  }
+  .project-video iframe {
+    width: 100%;
+    height: 100%;
+    display: block;
+    border: none;
+  }
+
+  .project-photo {
+    position: relative;
+    margin: 24px 0;
+    overflow: hidden;
+    filter: drop-shadow(0 8px 14px rgba(28,28,26,0.14));
+  }
+  .project-photo img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .project-photo::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    opacity: 0.035;
+    mix-blend-mode: multiply;
+    background-image: radial-gradient(circle, rgba(20,20,18,0.9) 1px, transparent 1.3px);
+    background-size: 5px 5px;
+  }
+
+  .project-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 30px 0;
+  }
+  .project-grid .project-photo { margin: 0; }
+  .project-photo--placeholder {
+    aspect-ratio: 3 / 4;
+    background: #E2D9C8;
+    border: 1px dashed rgba(28,28,26,0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 16px;
+    font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+    font-size: 0.78rem;
+    color: var(--mist);
+  }
+  .project-photo--placeholder::after { content: none; }
+
+  @media (max-width: 720px) {
+    .project-column { padding: 12vh 20px 14vh 20px; max-width: 100%; }
+    .home-anchor { top: 24px; left: 24px; font-size: 1.35rem; }
+    .umbrales { gap: 14px; right: 3vw; }
+    .umbral img { height: 56px; }
+    .project-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="grain"></div>
+
+<a href="../index.html" class="home-anchor">mi casa</a>
+
+<div class="umbrales">
+  <a href="../memorias.html" class="umbral" aria-label="ir a Memorias">
+    <img src="../assets/ventana-redonda-memorias.png" alt="">
+    <span class="umbral-label">memorias</span>
+  </a>
+  <a href="../pensamientos.html" class="umbral" aria-label="ir a Pensamientos">
+    <img src="../assets/buzon-pensamientos.png" alt="">
+    <span class="umbral-label">pensamientos</span>
+  </a>
+  <a href="../escuchas.html" class="umbral" aria-label="ir a Escuchas">
+    <img src="../assets/puerta-escuchas.png" alt="">
+    <span class="umbral-label">escuchas</span>
+  </a>
+  <a href="../trabajo.html" class="umbral" aria-label="ir a Trabajo">
+    <img src="../assets/ventana-vieja-trabajo.png" alt="">
+    <span class="umbral-label">trabajo</span>
+  </a>
+</div>
+
+<div class="project-column">
+  <a href="../archivos.html" class="back-link">&larr; volver a archivos</a>
+
+  <div class="project-meta">[ año ] · video</div>
+  <h1>LA MUERTE DE LEGO</h1>
+
+  <p>Un video de este proyecto.</p>
+
+  <!-- VIDEO (YouTube): reemplazar VIDEO_ID por el id real -->
+  <div class="project-video">
+    <iframe src="https://www.youtube.com/embed/VIDEO_ID" title="LA MUERTE DE LEGO" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  </div>
+
+  <p>[ Texto adicional sobre LA MUERTE DE LEGO si hace falta. ]</p>
+</div>
+
+</body>
+</html>
