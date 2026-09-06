@@ -1,1 +1,53 @@
-@font-face { font-family: 'Cardinal'; src: url('assets/fonts/Cardinal.ttf') format('truetype'); } html, body { margin: 0; background: #c9c7c2; min-height: 100vh; min-height: 100dvh; } .house-wrap { position: relative; width: 100%; margin: 0 auto; } .house-img { width: 100%; height: auto; display: block; } .hotspot { position: absolute; display: block; } .hotspot-label { position: absolute; left: 50%; transform: translateX(-50%); font-family: 'Cardinal', serif; font-size: 2.6rem; color: #5B6EF0; text-decoration: underline; white-space: nowrap; pointer-events: none; } .hotspot[href="memorias.html"] .hotspot-label { bottom: -20px; } .hotspot[href="archivos.html"] .hotspot-label { bottom: -70px; } .hotspot[href="pensamientos.html"] .hotspot-label { bottom: -45px; } .hotspot[href="trabajo.html"] .hotspot-label { bottom: -45px; } .hotspot[href="escuchas.html"] .hotspot-label { bottom: -45px; } .site-title { position: absolute; top: 5%; left: 6%; font-family: 'Cardinal', serif; font-size: 4.8rem; color: #1C1C1A; z-index: 5; margin: 0; } @media (max-width: 820px) { .hotspot[href="memorias.html"] { left: 24% !important; top: 24% !important; width: 18% !important; height: 16% !important; } .hotspot[href="archivos.html"] { left: 20% !important; top: 40% !important; width: 20% !important; height: 30% !important; } .hotspot[href="pensamientos.html"] { left: 44% !important; top: 56% !important; width: 8% !important; height: 8% !important; } .hotspot[href="trabajo.html"] { left: 60% !important; top: 54% !important; width: 12% !important; height: 14% !important; } .hotspot[href="escuchas.html"] { left: 13% !important; top: 64% !important; width: 7% !important; height: 8% !important; } }
+@font-face {
+  font-family: 'Cardinal';
+  src: url('assets/fonts/Cardinal.ttf') format('truetype');
+}
+html, body {
+  margin: 0;
+  background: #c9c7c2;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+.house-wrap {
+  position: relative;
+  width: 100%;
+  margin: 0 auto;
+}
+.house-img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.hotspot {
+  position: absolute;
+  display: block;
+}
+.hotspot-label {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Cardinal', serif;
+  font-size: 2.6rem;
+  color: #5B6EF0;
+  text-decoration: underline;
+  white-space: nowrap;
+  pointer-events: none;
+}
+.site-title {
+  position: absolute;
+  top: 5%;
+  left: 6%;
+  font-family: 'Cardinal', serif;
+  font-size: 4.8rem;
+  color: #1C1C1A;
+  z-index: 5;
+  margin: 0;
+}
+@media (max-width: 820px) {
+  .hotspot[href="memorias.html"] { left: 24% !important; top: 24% !important; width: 18% !important; height: 16% !important; }
+  .hotspot[href="archivos.html"] { left: 20% !important; top: 40% !important; width: 20% !important; height: 30% !important; }
+  .hotspot[href="pensamientos.html"] { left: 44% !important; top: 56% !important; width: 8% !important; height: 8% !important; }
+  .hotspot[href="trabajo.html"] { left: 60% !important; top: 54% !important; width: 12% !important; height: 14% !important; }
+  .hotspot[href="escuchas.html"] { left: 13% !important; top: 64% !important; width: 7% !important; height: 8% !important; }
+}
