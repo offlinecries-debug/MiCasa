@@ -1,0 +1,77 @@
+backend:
+  name: github
+  repo: offlinecries-debug/MiCasa
+  branch: main
+
+# Las imágenes y archivos que subas desde el editor se guardan acá,
+# como archivos reales dentro de tu repo.
+media_folder: "assets/blog"
+public_folder: "assets/blog"
+
+collections:
+  - name: "posts"
+    label: "Pensamientos — Entradas"
+    label_singular: "Entrada"
+    folder: "content/posts"
+    create: true
+    delete: true
+
+    # Cada entrada se guarda como un .json — así el sitio la puede leer
+    # directamente sin tener que parsear markdown.
+    format: json
+
+    # El nombre del archivo se genera solo a partir de fecha + título,
+    # no hay que pensarlo al crear una entrada.
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+
+    fields:
+      - { label: "Título", name: "title", widget: "string" }
+
+      - label: "Fecha y hora de publicación"
+        name: "date"
+        widget: "datetime"
+        default: ""
+        picker_utc: false
+        format: "YYYY-MM-DDTHH:mm:ssZ"
+
+      - label: "Estado"
+        name: "draft"
+        widget: "select"
+        options:
+          - { label: "Borrador", value: true }
+          - { label: "Publicada", value: false }
+        default: true
+
+      # El contenido de la entrada: una lista ordenada de bloques.
+      # Cada bloque puede ser texto, foto, anotación o archivo adjunto,
+      # en cualquier orden y cantidad — igual que en tu ejemplo.
+      - label: "Contenido"
+        name: "blocks"
+        widget: "list"
+        label_singular: "bloque"
+        types:
+          - label: "Texto"
+            name: "text"
+            widget: "object"
+            fields:
+              - { label: "Texto", name: "content", widget: "text" }
+
+          - label: "Foto"
+            name: "photo"
+            widget: "object"
+            fields:
+              - { label: "Imagen", name: "src", widget: "image" }
+              - { label: "Caption (opcional)", name: "caption", widget: "string", required: false }
+
+          - label: "Anotación"
+            name: "annotation"
+            widget: "object"
+            fields:
+              - { label: "Texto de la anotación", name: "content", widget: "string" }
+
+          - label: "Archivo adjunto"
+            name: "file"
+            widget: "object"
+            fields:
+              - { label: "Archivo", name: "src", widget: "file" }
+              - { label: "Etiqueta", name: "label", widget: "string" }
