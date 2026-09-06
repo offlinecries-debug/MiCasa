@@ -1,40 +1,18 @@
-<!doctype html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pensamientos — Mi Casa</title>
-<link rel="stylesheet" href="style.css">
-<style>
-
-  :root {
-    --room-paper: #EEE8DC;
-    --room-paper-deep: #E2D9C8;
-  }
-
-  html, body {
-    margin: 0;
-    min-height: 100%;
-  }
-
-  body {
-    background:
-      radial-gradient(ellipse 120% 90% at 28% 0%, rgba(255,253,248,0.45), transparent 62%),
-      radial-gradient(ellipse 140% 100% at 82% 100%, rgba(206,192,166,0.3), transparent 58%),
-      linear-gradient(160deg, var(--room-paper) 0%, var(--room-paper-deep) 100%);
-    background-attachment: fixed;
-  }
-
-  /* grano sutil sobre la superficie */
-  .grain {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    opacity: 0.045;
-    mix-blend-mode: multiply;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  }
-
+{
+  "title": "Bienvenida a este espacio",
+  "date": "2026-09-05T12:00:00-03:00",
+  "draft": false,
+  "blocks": [
+    {
+      "type": "text",
+      "content": "Este es el primer post de prueba, ahora migrado al nuevo sistema. Reemplazá este contenido por lo que quieras contar: algo que hiciste hoy, un proyecto en el que estás trabajando, o simplemente cómo estuvo tu día."
+    },
+    {
+      "type": "text",
+      "content": "Para escribir uno nuevo, ya no hace falta duplicar ningún archivo — se crea directamente desde /admin, con el botón \"Nueva entrada\"."
+    }
+  ]
+}
   /* ancla de vuelta a la casa — Cardinal, negro, discreta */
   .home-anchor {
     position: fixed;
