@@ -38,7 +38,7 @@ html, body {
   pointer-events: none;
 }
 .hotspot:hover .hotspot-label { background: #1C1C1A; color: #c9c7c2; } .hotspot[href="trabajo.html"] .hotspot-label { top: 35%; } 
-}
+
 .site-title {
   position: absolute;
   top: 5%;
