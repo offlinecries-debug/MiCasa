@@ -23,6 +23,7 @@ html, body {
   display: block;
 }
 .hotspot-label {
+  transition: background 0.15s, color 0.15s;
   position: absolute;
   top: 50%;
   left: 50%;
