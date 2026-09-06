@@ -5,32 +5,147 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pensamientos — Mi Casa</title>
 <link rel="stylesheet" href="style.css">
+<style>
+
+  :root {
+    --room-paper: #EEE8DC;
+    --room-paper-deep: #E2D9C8;
+  }
+
+  html, body {
+    margin: 0;
+    min-height: 100%;
+  }
+
+  body {
+    background:
+      radial-gradient(ellipse 120% 90% at 28% 0%, rgba(255,253,248,0.45), transparent 62%),
+      radial-gradient(ellipse 140% 100% at 82% 100%, rgba(206,192,166,0.3), transparent 58%),
+      linear-gradient(160deg, var(--room-paper) 0%, var(--room-paper-deep) 100%);
+    background-attachment: fixed;
+  }
+
+  /* grano sutil sobre la superficie */
+  .grain {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.045;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* ancla de vuelta a la casa — Cardinal, negro, discreta */
+  .home-anchor {
+    position: fixed;
+    top: 36px;
+    left: 44px;
+    font-family: 'Cardinal', serif;
+    font-size: 1.65rem;
+    color: var(--ink);
+    text-decoration: none;
+    opacity: 0.82;
+    letter-spacing: 0.01em;
+    transition: opacity 0.25s ease;
+    z-index: 10;
+  }
+  .home-anchor:hover { opacity: 1; text-decoration: none; }
+
+  /* umbrales — objetos reales de la casa, apilados en vertical, centrados en la pantalla */
+  .umbrales {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 4vw;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 22px;
+  }
+  .umbral {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+  }
+  .umbral img {
+    height: 78px;
+    width: auto;
+    display: block;
+    opacity: 0.75;
+    filter: drop-shadow(0 8px 14px rgba(32,29,25,0.18));
+    transition: transform 0.35s cubic-bezier(.2,.8,.3,1), opacity 0.35s ease;
+  }
+  .umbral-label {
+    font-family: 'Cardinal', serif;
+    font-size: 1rem;
+    color: var(--ink);
+    opacity: 0.75;
+  }
+  .umbral:hover img {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+
+  /* contenido existente de la habitación — sin rediseñar todavía */
+  .room-content {
+    position: relative;
+    z-index: 5;
+    max-width: 62ch;
+    padding: 15vh 10vw 15vh 10vw;
+  }
+  .room-content h1 { color: var(--ink); }
+
+  @media (max-width: 720px) {
+    /* PENDIENTE (pase general de mobile): en celular los umbrales verticales
+       se superponen con el contenido. Reubicar en fila horizontal
+       abajo de la pantalla cuando ataquemos mobile en todo el sitio. */
+    .umbrales { gap: 14px; right: 3vw; }
+    .umbral img { height: 56px; }
+    .home-anchor { top: 24px; left: 24px; font-size: 1.35rem; }
+    .room-content { padding: 12vh 6vw; }
+  }
+</style>
 </head>
 <body>
-<div class="layout">
-  <aside class="sidebar">
-    <nav class="primary-nav">
-      <ul>
-        <li><a href="index.html">Inicio</a></li>
-        <li><a href="memorias.html">Memorias</a></li>
-        <li><a href="archivos.html">Archivos</a></li>
-        <li><a href="pensamientos.html" class="active">Pensamientos</a></li>
-        <li><a href="escuchas.html">Escuchas</a></li>
-        <li><a href="trabajo.html">Trabajo</a></li>
-      </ul>
-    </nav>
-  </aside>
-  <main>
-    <h1>Pensamientos</h1>
-    <p style="color:var(--mist); margin-top:10px;">Cosas que hago, pienso o encuentro. Sin mucho filtro.</p>
-    <div class="post-list">
-      <div class="post-list-item">
-        <div class="date">5 de septiembre, 2026</div>
-        <a href="posts/2026-09-05-bienvenida.html" class="title" style="color:var(--ink); text-decoration:none;">Bienvenida a este espacio</a>
-        <div class="excerpt">Primer post de prueba.</div>
-      </div>
-    </div>
-  </main>
+
+<div class="grain"></div>
+
+<a href="index.html" class="home-anchor">mi casa</a>
+
+<!-- Umbrales: objetos reales de la casa que llevan a cada una de las otras habitaciones -->
+<div class="umbrales">
+  <a href="memorias.html" class="umbral" aria-label="ir a Memorias">
+    <img src="assets/ventana-redonda-memorias.png" alt="">
+    <span class="umbral-label">memorias</span>
+  </a>
+  <a href="escuchas.html" class="umbral" aria-label="ir a Escuchas">
+    <img src="assets/puerta-escuchas.png" alt="">
+    <span class="umbral-label">escuchas</span>
+  </a>
+  <a href="trabajo.html" class="umbral" aria-label="ir a Trabajo">
+    <img src="assets/ventana-vieja-trabajo.png" alt="">
+    <span class="umbral-label">trabajo</span>
+  </a>
+  <a href="archivos.html" class="umbral" aria-label="ir a Archivos">
+    <img src="assets/puerta-archivos.png" alt="">
+    <span class="umbral-label">archivos</span>
+  </a>
 </div>
+
+<div class="room-content">
+  <h1>Pensamientos</h1>
+  <p style="color:var(--mist); margin-top:10px;">Cosas que hago, pienso o encuentro. Sin mucho filtro.</p>
+  <div class="post-list">
+    <div class="post-list-item">
+      <div class="date">5 de septiembre, 2026</div>
+      <a href="posts/2026-09-05-bienvenida.html" class="title" style="color:var(--ink); text-decoration:none;">Bienvenida a este espacio</a>
+      <div class="excerpt">Primer post de prueba.</div>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
