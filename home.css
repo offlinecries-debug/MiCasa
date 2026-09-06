@@ -37,6 +37,10 @@ html, body {
   white-space: nowrap;
   pointer-events: none;
 }
+.hotspot:hover .hotspot-label {
+  background: #1C1C1A;
+  color: #c9c7c2;
+}
 .site-title {
   position: absolute;
   top: 5%;
