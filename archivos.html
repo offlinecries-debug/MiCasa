@@ -5,25 +5,225 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Archivos — Mi Casa</title>
 <link rel="stylesheet" href="style.css">
+<style>
+
+  :root {
+    --room-paper: #EEE8DC;
+    --room-paper-deep: #E2D9C8;
+  }
+
+  html, body {
+    margin: 0;
+    min-height: 100%;
+  }
+
+  body {
+    background:
+      radial-gradient(ellipse 120% 90% at 28% 0%, rgba(255,253,248,0.45), transparent 62%),
+      radial-gradient(ellipse 140% 100% at 82% 100%, rgba(206,192,166,0.3), transparent 58%),
+      linear-gradient(160deg, var(--room-paper) 0%, var(--room-paper-deep) 100%);
+    background-attachment: fixed;
+  }
+
+  .grain {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.045;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .home-anchor {
+    position: fixed;
+    top: 36px;
+    left: 44px;
+    font-family: 'Cardinal', serif;
+    font-size: 1.65rem;
+    color: var(--ink);
+    text-decoration: none;
+    opacity: 0.82;
+    z-index: 10;
+  }
+  .home-anchor:hover { opacity: 1; text-decoration: none; }
+
+  .umbrales {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 4vw;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 22px;
+  }
+  .umbral { display: flex; flex-direction: column; align-items: center; gap: 6px; text-decoration: none; }
+  .umbral img {
+    height: 78px; width: auto; display: block; opacity: 0.75;
+    filter: drop-shadow(0 8px 14px rgba(32,29,25,0.18));
+    transition: transform 0.35s cubic-bezier(.2,.8,.3,1), opacity 0.35s ease;
+  }
+  .umbral-label { font-family: 'Cardinal', serif; font-size: 1rem; color: var(--ink); opacity: 0.75; }
+  .umbral:hover img { transform: scale(1.1); opacity: 1; }
+
+  /* ---------- índice de proyectos ---------- */
+  .archivos-wrap {
+    position: relative;
+    z-index: 5;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 12vh 0 8vh 0;
+  }
+
+  .room-title {
+    font-family: 'Cardinal', serif;
+    font-size: 3rem;
+    color: var(--ink);
+    opacity: 0.88;
+    margin: 0 0 6vh 9vw;
+  }
+
+  .gallery {
+    display: flex;
+    gap: 34px;
+    overflow-x: auto;
+    padding: 10px 9vw 40px 9vw;
+    padding-right: max(9vw, 180px); /* deja aire para no chocar con las ventanas */
+    scrollbar-width: thin;
+  }
+
+  .gallery-item {
+    flex: 0 0 auto;
+    width: 220px;
+    text-decoration: none;
+    color: var(--ink);
+  }
+
+  .gallery-index {
+    font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+    font-size: 0.78rem;
+    color: var(--mist);
+    margin-bottom: 10px;
+  }
+
+  .gallery-cover {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    background: #E2D9C8;
+    border: 1px dashed rgba(28,28,26,0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 16px;
+    font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+    font-size: 0.78rem;
+    color: var(--mist);
+    filter: drop-shadow(0 8px 14px rgba(28,28,26,0.14));
+    transition: transform 0.35s cubic-bezier(.2,.8,.3,1);
+    overflow: hidden;
+  }
+  .gallery-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .gallery-item:hover .gallery-cover {
+    transform: translateY(-6px);
+  }
+
+  .gallery-title {
+    font-family: Georgia, serif;
+    font-size: 1.05rem;
+    margin-top: 14px;
+  }
+
+  @media (max-width: 720px) {
+    /* PENDIENTE (pase general de mobile): en celular los umbrales verticales
+       se superponen con el contenido. Reubicar en fila horizontal
+       abajo de la pantalla cuando ataquemos mobile en todo el sitio. */
+    .home-anchor { top: 24px; left: 24px; font-size: 1.35rem; }
+    .umbrales { gap: 14px; right: 3vw; }
+    .umbral img { height: 56px; }
+    .room-title { font-size: 2.1rem; margin: 0 0 4vh 6vw; }
+    .gallery { padding: 10px 6vw 30px 6vw; gap: 20px; }
+    .gallery-item { width: 160px; }
+  }
+</style>
 </head>
 <body>
-<div class="layout">
-  <aside class="sidebar">
-    <nav class="primary-nav">
-      <ul>
-        <li><a href="index.html">Inicio</a></li>
-        <li><a href="memorias.html">Memorias</a></li>
-        <li><a href="archivos.html" class="active">Archivos</a></li>
-        <li><a href="pensamientos.html">Pensamientos</a></li>
-        <li><a href="escuchas.html">Escuchas</a></li>
-        <li><a href="trabajo.html">Trabajo</a></li>
-      </ul>
-    </nav>
-  </aside>
-  <main>
-    <h1>Archivos</h1>
-    <p>[ Acá van tus documentos, notas, cosas guardadas — lo que quieras archivar ]</p>
-  </main>
+
+<div class="grain"></div>
+
+<a href="index.html" class="home-anchor">mi casa</a>
+
+<div class="umbrales">
+  <a href="memorias.html" class="umbral" aria-label="ir a Memorias">
+    <img src="assets/ventana-redonda-memorias.png" alt="">
+    <span class="umbral-label">memorias</span>
+  </a>
+  <a href="pensamientos.html" class="umbral" aria-label="ir a Pensamientos">
+    <img src="assets/buzon-pensamientos.png" alt="">
+    <span class="umbral-label">pensamientos</span>
+  </a>
+  <a href="escuchas.html" class="umbral" aria-label="ir a Escuchas">
+    <img src="assets/puerta-escuchas.png" alt="">
+    <span class="umbral-label">escuchas</span>
+  </a>
+  <a href="trabajo.html" class="umbral" aria-label="ir a Trabajo">
+    <img src="assets/ventana-vieja-trabajo.png" alt="">
+    <span class="umbral-label">trabajo</span>
+  </a>
 </div>
+
+<div class="archivos-wrap">
+  <div class="room-title">archivos</div>
+
+  <!-- Cada proyecto nuevo se agrega acá como un .gallery-item más.
+       Reemplazá el contenido de .gallery-cover por una <img> real
+       cuando tengas la tapa (ver comentario más abajo). -->
+  <div class="gallery">
+
+    <a href="proyectos/boris.html" class="gallery-item">
+      <div class="gallery-index">(01)</div>
+      <div class="gallery-cover">
+        [ tapa de BORIS ]
+        <!-- Reemplazar por: <img src="assets/proyectos/boris-tapa.jpg" alt=""> -->
+      </div>
+      <div class="gallery-title">BORIS</div>
+    </a>
+
+    <a href="proyectos/sakatumba.html" class="gallery-item">
+      <div class="gallery-index">(02)</div>
+      <div class="gallery-cover">
+        [ tapa de SAKATUMBA ]
+      </div>
+      <div class="gallery-title">SAKATUMBA</div>
+    </a>
+
+    <a href="proyectos/escaneos.html" class="gallery-item">
+      <div class="gallery-index">(03)</div>
+      <div class="gallery-cover">
+        [ tapa de ESCANEOS ]
+      </div>
+      <div class="gallery-title">ESCANEOS</div>
+    </a>
+
+    <a href="proyectos/la-muerte-de-lego.html" class="gallery-item">
+      <div class="gallery-index">(04)</div>
+      <div class="gallery-cover">
+        [ tapa de La muerte de Lego ]
+      </div>
+      <div class="gallery-title">La muerte de Lego</div>
+    </a>
+
+  </div>
+</div>
+
 </body>
 </html>
