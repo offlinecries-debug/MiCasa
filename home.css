@@ -59,10 +59,10 @@
 /* costura decorativa al costado — se va "cosiendo" de arriba hacia abajo */
 .costura-deco {
   position: absolute;
-  top: 3%;
-  right: 2%;
-  width: 13vw;
-  max-width: 200px;
+  top: 0;
+  right: 0;
+  width: 24vw;
+  max-width: 380px;
   height: auto;
   pointer-events: none;
   z-index: 6;
