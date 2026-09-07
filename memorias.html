@@ -14,7 +14,7 @@
 
   html, body {
     margin: 0;
-    height: 100%;
+    min-height: 100%;
   }
 
   body {
@@ -22,7 +22,6 @@
       radial-gradient(ellipse 120% 90% at 28% 0%, rgba(255,253,248,0.45), transparent 62%),
       radial-gradient(ellipse 140% 100% at 82% 100%, rgba(206,192,166,0.3), transparent 58%),
       linear-gradient(160deg, var(--room-paper) 0%, var(--room-paper-deep) 100%);
-    overflow: hidden;
   }
 
   /* grano sutil sobre la superficie */
@@ -148,6 +147,59 @@
     .stage { transform: scale(0.75); }
     .home-anchor { top: 24px; left: 24px; font-size: 1.35rem; }
   }
+
+  /* segundo sector: otro rollo de fotos, en su propia mesa más abajo */
+  .stage2-wrap {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    padding: 8vh 8vw 16vh 8vw;
+    display: flex;
+    justify-content: center;
+  }
+
+  .stage2 {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 40px 26px;
+    max-width: 1180px;
+  }
+
+  .photo2 {
+    width: 240px;
+    height: auto;
+    display: block;
+    cursor: pointer;
+    filter: drop-shadow(0 10px 18px rgba(32,29,25,0.22));
+    transition: transform 0.35s cubic-bezier(.2,.8,.3,1), filter 0.35s ease;
+  }
+  .photo2:hover {
+    filter: drop-shadow(0 22px 30px rgba(32,29,25,0.32));
+    transform: rotate(0deg) translateY(-10px) scale(1.06) !important;
+    z-index: 20;
+    position: relative;
+  }
+
+  .photo2:nth-child(1)  { transform: rotate(-4deg) translateY(6px); }
+  .photo2:nth-child(2)  { transform: rotate(3deg) translateY(-8px); }
+  .photo2:nth-child(3)  { transform: rotate(-6deg) translateY(4px); }
+  .photo2:nth-child(4)  { transform: rotate(5deg) translateY(10px); }
+  .photo2:nth-child(5)  { transform: rotate(-2deg) translateY(-6px); }
+  .photo2:nth-child(6)  { transform: rotate(4deg) translateY(2px); }
+  .photo2:nth-child(7)  { transform: rotate(-5deg) translateY(-10px); }
+  .photo2:nth-child(8)  { transform: rotate(2deg) translateY(8px); }
+  .photo2:nth-child(9)  { transform: rotate(-3deg) translateY(0px); }
+  .photo2:nth-child(10) { transform: rotate(6deg) translateY(-4px); }
+  .photo2:nth-child(11) { transform: rotate(-4deg) translateY(10px); }
+  .photo2:nth-child(12) { transform: rotate(3deg) translateY(-2px); }
+
+  @media (max-width: 720px) {
+    .stage2-wrap { padding: 4vh 6vw 10vh 6vw; }
+    .stage2 { gap: 26px 16px; }
+    .photo2 { width: 42vw; }
+  }
 </style>
 </head>
 <body>
@@ -180,6 +232,24 @@
   <img class="photo photo--cielo" src="assets/10120018.jpg" alt="">
   <img class="photo photo--iglesia" src="assets/10100006.JPG" alt="">
   <img class="photo photo--bodegon" src="assets/10100014.JPG" alt="">
+</div>
+
+<!-- segundo sector: otro rollo de fotos, más abajo -->
+<div class="stage2-wrap">
+  <div class="stage2">
+    <img class="photo2" src="assets/memorias-2/10110007.JPG" alt="">
+    <img class="photo2" src="assets/memorias-2/10110014.JPG" alt="">
+    <img class="photo2" src="assets/memorias-2/10110015.JPG" alt="">
+    <img class="photo2" src="assets/memorias-2/10110016.JPG" alt="">
+    <img class="photo2" src="assets/memorias-2/10110017.JPG" alt="">
+    <img class="photo2" src="assets/memorias-2/10110018.JPG" alt="">
+    <img class="photo2" src="assets/memorias-2/10110019.JPG" alt="">
+    <img class="photo2" src="assets/memorias-2/10110020.JPG" alt="">
+    <img class="photo2" src="assets/memorias-2/10110021.JPG" alt="">
+    <img class="photo2" src="assets/memorias-2/10110022.JPG" alt="">
+    <img class="photo2" src="assets/memorias-2/10110026.JPG" alt="">
+    <img class="photo2" src="assets/memorias-2/10110029.JPG" alt="">
+  </div>
 </div>
 
 </body>
