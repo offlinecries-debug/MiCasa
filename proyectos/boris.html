@@ -168,8 +168,17 @@
   @media (max-width: 720px) {
     .project-column { padding: 12vh 20px 14vh 20px; max-width: 100%; }
     .home-anchor { top: 24px; left: 24px; font-size: 1.35rem; }
-    .umbrales { gap: 14px; right: 3vw; }
-    .umbral img { height: 56px; }
+    .umbrales {
+      top: auto;
+      bottom: 14px;
+      right: auto;
+      left: 50%;
+      transform: translateX(-50%);
+      flex-direction: row;
+      gap: 20px;
+    }
+    .umbral img { height: 42px; }
+    .umbral-label { font-size: 0.68rem; }
     .project-grid { grid-template-columns: 1fr; }
   }
 </style>
@@ -185,4 +194,32 @@
     <img src="../assets/ventana-redonda-memorias.png" alt="">
     <span class="umbral-label">memorias</span>
   </a>
-  <a
+  <a href="../pensamientos.html" class="umbral" aria-label="ir a Pensamientos">
+    <img src="../assets/buzon-pensamientos.png" alt="">
+    <span class="umbral-label">pensamientos</span>
+  </a>
+  <a href="../escuchas.html" class="umbral" aria-label="ir a Escuchas">
+    <img src="../assets/puerta-escuchas.png" alt="">
+    <span class="umbral-label">escuchas</span>
+  </a>
+  <a href="../trabajo.html" class="umbral" aria-label="ir a Trabajo">
+    <img src="../assets/ventana-vieja-trabajo.png" alt="">
+    <span class="umbral-label">trabajo</span>
+  </a>
+</div>
+
+<div class="project-column">
+  <a href="../archivos.html" class="back-link">&larr; volver a archivos</a>
+
+  <div class="project-meta">[ año ] · música</div>
+  <h1>BORIS</h1>
+
+  <!-- Al archivo original le faltaba todo el contenido de acá para abajo
+       (se cortó a la mitad). Agregá foto de tapa, video o texto real. -->
+  <div class="project-photo"><img src="boris-tapa.jpg" alt=""></div>
+
+  <p>[ Texto sobre BORIS si hace falta. ]</p>
+</div>
+
+</body>
+</html>

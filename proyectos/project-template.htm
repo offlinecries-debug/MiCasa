@@ -168,8 +168,17 @@
   @media (max-width: 720px) {
     .project-column { padding: 12vh 20px 14vh 20px; max-width: 100%; }
     .home-anchor { top: 24px; left: 24px; font-size: 1.35rem; }
-    .umbrales { gap: 14px; right: 3vw; }
-    .umbral img { height: 56px; }
+    .umbrales {
+      top: auto;
+      bottom: 14px;
+      right: auto;
+      left: 50%;
+      transform: translateX(-50%);
+      flex-direction: row;
+      gap: 20px;
+    }
+    .umbral img { height: 42px; }
+    .umbral-label { font-size: 0.68rem; }
     .project-grid { grid-template-columns: 1fr; }
   }
 </style>

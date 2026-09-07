@@ -134,8 +134,17 @@
        se superponen con el contenido. Reubicar en fila horizontal
        abajo de la pantalla cuando ataquemos mobile en todo el sitio. */
     .home-anchor { top: 24px; left: 24px; font-size: 1.35rem; }
-    .umbrales { gap: 14px; right: 3vw; }
-    .umbral img { height: 56px; }
+    .umbrales {
+      top: auto;
+      bottom: 14px;
+      right: auto;
+      left: 50%;
+      transform: translateX(-50%);
+      flex-direction: row;
+      gap: 20px;
+    }
+    .umbral img { height: 42px; }
+    .umbral-label { font-size: 0.68rem; }
     .vinyl-wrap { width: 220px; height: 220px; margin-bottom: 28px; }
     .room-title { font-size: 2.1rem; margin-bottom: 5vh; }
   }

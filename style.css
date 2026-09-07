@@ -259,7 +259,7 @@ main {
   }
   .sidebar-footer { display: none; }
   nav.primary-nav { margin-top: 0; }
-  nav.primary-nav ul { display: flex; gap: 16px; }
+  nav.primary-nav ul { display: flex; flex-wrap: wrap; gap: 10px 16px; }
   .section-label { display: none; }
   main { padding: 40px 24px; }
   .index-item .desc { display: none; }

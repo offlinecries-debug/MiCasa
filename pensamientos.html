@@ -179,8 +179,17 @@
        se superponen con el contenido. Reubicar en fila horizontal
        abajo de la pantalla cuando ataquemos mobile en todo el sitio. */
     .blog-column { padding: 12vh 20px 14vh 20px; max-width: 100%; }
-    .umbrales { gap: 14px; right: 3vw; }
-    .umbral img { height: 56px; }
+    .umbrales {
+      top: auto;
+      bottom: 14px;
+      right: auto;
+      left: 50%;
+      transform: translateX(-50%);
+      flex-direction: row;
+      gap: 20px;
+    }
+    .umbral img { height: 42px; }
+    .umbral-label { font-size: 0.68rem; }
     .home-anchor { top: 24px; left: 24px; font-size: 1.35rem; }
     .entry-gallery { flex-direction: column; }
   }

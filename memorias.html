@@ -90,8 +90,17 @@
   }
 
   @media (max-width: 720px) {
-    .umbrales { gap: 14px; right: 3vw; }
-    .umbral img { height: 56px; }
+    .umbrales {
+      top: auto;
+      bottom: 14px;
+      right: auto;
+      left: 50%;
+      transform: translateX(-50%);
+      flex-direction: row;
+      gap: 20px;
+    }
+    .umbral img { height: 42px; }
+    .umbral-label { font-size: 0.68rem; }
   }
 
   .stages-row {
