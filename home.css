@@ -18,26 +18,17 @@
   }
 
   .hotspot-label {
-    opacity: 1 !important;
     font-size: 0.95rem;
     padding: 1px 7px;
-    animation: mc-label-in 0.6s ease-out both;
   }
-  .hotspot[href="memorias.html"] .hotspot-label { animation-delay: 0.3s; }
-  .hotspot[href="archivos.html"] .hotspot-label { animation-delay: 0.5s; }
-  .hotspot[href="pensamientos.html"] .hotspot-label { animation-delay: 0.7s; }
-  .hotspot[href="trabajo.html"] .hotspot-label { animation-delay: 0.9s; }
-  .hotspot[href="escuchas.html"] .hotspot-label { animation-delay: 1.1s; }
 
+  /* el nombre se revela solo al tocar (misma idea que el hover de compu),
+     no queda siempre prendido */
   .hotspot.tap-active .hotspot-label {
+    opacity: 1;
     transform: translate(-50%, -50%) scale(1.12);
     background: #1C1C1A;
     color: #c9c7c2;
-  }
-
-  @keyframes mc-label-in {
-    from { opacity: 0; transform: translate(-50%, -50%) translateY(8px); }
-    to { opacity: 1; transform: translate(-50%, -50%) translateY(0); }
   }
  }
 
