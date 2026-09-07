@@ -143,34 +143,37 @@
     background-size: 5px 5px;
   }
 
-  .project-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    margin: 30px 0;
-  }
-  .project-grid .project-photo { margin: 0; }
-  .project-photo--placeholder {
-    aspect-ratio: 3 / 4;
-    background: #E2D9C8;
-    border: 1px dashed rgba(28,28,26,0.25);
+  .project-photo img { cursor: zoom-in; }
+
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    background: rgba(20,18,15,0.92);
     display: flex;
     align-items: center;
     justify-content: center;
-    text-align: center;
-    padding: 16px;
-    font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
-    font-size: 0.78rem;
-    color: var(--mist);
+    padding: 5vh 5vw;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
   }
-  .project-photo--placeholder::after { content: none; }
+  .lightbox.open { opacity: 1; pointer-events: auto; }
+  .lightbox img {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    display: block;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+    cursor: zoom-out;
+  }
 
   @media (max-width: 720px) {
     .project-column { padding: 12vh 20px 14vh 20px; max-width: 100%; }
     .home-anchor { top: 24px; left: 24px; font-size: 1.35rem; }
     .umbrales { gap: 14px; right: 3vw; }
     .umbral img { height: 56px; }
-    .project-grid { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -207,28 +210,41 @@
 
   <p>Varias fotos de cosas escaneadas.</p>
 
-  <!-- GRILLA DE ESCANEOS: subí cada imagen directo a esta carpeta (proyectos/)
-       y agregá un <div class="project-photo"> por cada una -->
-  <div class="project-grid">
-    <div class="project-photo"><img src="escaneo-1.jpg" alt=""></div>
-    <div class="project-photo"><img src="IMG_1664.JPG" alt=""></div>
-    <div class="project-photo"><img src="IMG_1665.JPG" alt=""></div>
-    <div class="project-photo"><img src="IMG_1666.JPG" alt=""></div>
-    <div class="project-photo"><img src="IMG_1667.JPG" alt=""></div>
-    <div class="project-photo"><img src="IMG_1668.JPG" alt=""></div>
-    <div class="project-photo"><img src="IMG_1669.JPG" alt=""></div>
-  </div>
-
-  <!-- fotos panorámicas, fuera de la grilla para que se vean a ancho completo -->
-  <div class="project-photo">
-    <img src="Imagen larga 6-9-26 20.44.36.jpg" alt="">
-  </div>
-  <div class="project-photo">
-    <img src="Imagen larga 6-9-26 20.45.33.JPG" alt="">
-  </div>
+  <!-- FOTOS DE ESCANEOS: subí cada imagen directo a esta carpeta (proyectos/)
+       y agregá un <div class="project-photo"> por cada una. Se ven grandes,
+       una abajo de la otra, y se agrandan más al hacerles click. -->
+  <div class="project-photo"><img src="escaneo-1.jpg" alt=""></div>
+  <div class="project-photo"><img src="IMG_1664.JPG" alt=""></div>
+  <div class="project-photo"><img src="IMG_1666.JPG" alt=""></div>
+  <div class="project-photo"><img src="IMG_1667.JPG" alt=""></div>
+  <div class="project-photo"><img src="IMG_1668.JPG" alt=""></div>
+  <div class="project-photo"><img src="IMG_1669.JPG" alt=""></div>
+  <div class="project-photo"><img src="Imagen larga 6-9-26 20.44.36.jpg" alt=""></div>
+  <div class="project-photo"><img src="Imagen larga 6-9-26 20.45.33.JPG" alt=""></div>
 
   <p>[ Texto adicional sobre ESCANEOS si hace falta. ]</p>
 </div>
+
+<div class="lightbox" id="lightbox">
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<script>
+  var lightbox = document.getElementById('lightbox');
+  var lightboxImg = document.getElementById('lightbox-img');
+
+  document.querySelectorAll('.project-photo img').forEach(function (img) {
+    img.addEventListener('click', function () {
+      lightboxImg.src = img.src;
+      lightbox.classList.add('open');
+    });
+  });
+
+  lightbox.addEventListener('click', function () {
+    lightbox.classList.remove('open');
+    lightboxImg.src = '';
+  });
+</script>
 
 </body>
 </html>
