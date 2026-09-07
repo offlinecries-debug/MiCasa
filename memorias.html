@@ -189,8 +189,9 @@
   .photo--foto3:hover { transform: rotate(7deg) translate(95px, 83px) scale(1.035); }
 
   @media (max-width: 720px) {
-    .stages-row { flex-direction: column; height: auto; }
-    .stage { width: 100%; height: 50vh; transform: scale(0.7); }
+    body { overflow-y: auto; }
+    .stages-row { flex-direction: column; height: auto; padding-bottom: 12vh; }
+    .stage { width: 100%; height: 55vh; transform: scale(0.7); }
     .home-anchor { top: 24px; left: 24px; font-size: 1.35rem; }
   }
 

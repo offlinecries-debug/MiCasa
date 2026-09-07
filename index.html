@@ -16,20 +16,20 @@
 
   <div class="site-title">mi casa</div>
 
-  <a href="memorias.html" class="hotspot" style="left:33%; top:19%; width:11%; height:23%;" aria-label="Memorias"><span class="hotspot-label">memorias</span></a>
-  <img class="room-png room-png--memorias" src="assets/ventana-redonda-memorias.png" alt="" style="left:33.475%; top:22.4125%; width:12.65%; height:21.275%; animation-delay: 1s;">
+  <a href="memorias.html" class="hotspot" style="left:33%; top:19%; width:11%; height:23%;" data-m-left="27.27" data-m-top="28.37" data-m-width="18.04" data-m-height="17.79" aria-label="Memorias"><span class="hotspot-label">memorias</span></a>
+  <img class="room-png room-png--memorias" src="assets/ventana-redonda-memorias.png" alt="" style="left:33.475%; top:22.4125%; width:12.65%; height:21.275%; animation-delay: 1s;" data-m-left="28.06" data-m-top="31.01" data-m-width="20.75" data-m-height="16.46">
 
-  <a href="archivos.html" class="hotspot" style="left:32%; top:41%; width:12%; height:42%;" aria-label="Archivos"><span class="hotspot-label">archivos</span></a>
-  <img class="room-png room-png--archivos" src="assets/puerta-archivos.png" alt="" style="left:34.3625%; top:41.8575%; width:9.775%; height:38.985%; animation-delay: 1.3s;">
+  <a href="archivos.html" class="hotspot" style="left:32%; top:41%; width:12%; height:42%;" data-m-left="25.63" data-m-top="45.39" data-m-width="19.68" data-m-height="32.48" aria-label="Archivos"><span class="hotspot-label">archivos</span></a>
+  <img class="room-png room-png--archivos" src="assets/puerta-archivos.png" alt="" style="left:34.3625%; top:41.8575%; width:9.775%; height:38.985%; animation-delay: 1.3s;" data-m-left="29.51" data-m-top="46.05" data-m-width="16.03" data-m-height="30.15">
 
-  <a href="pensamientos.html" class="hotspot" style="left:45%; top:66%; width:6%; height:13%;" aria-label="Pensamientos"><span class="hotspot-label">pensamientos</span></a>
-  <img class="room-png room-png--pensamientos" src="assets/buzon-pensamientos.png" alt="" style="left:47.1925%; top:61.105%; width:4.715%; height:12.19%; animation-delay: 1.6s;">
+  <a href="pensamientos.html" class="hotspot" style="left:45%; top:66%; width:6%; height:13%;" data-m-left="46.95" data-m-top="64.72" data-m-width="9.84" data-m-height="10.05" aria-label="Pensamientos"><span class="hotspot-label">pensamientos</span></a>
+  <img class="room-png room-png--pensamientos" src="assets/buzon-pensamientos.png" alt="" style="left:47.1925%; top:61.105%; width:4.715%; height:12.19%; animation-delay: 1.6s;" data-m-left="50.56" data-m-top="60.94" data-m-width="7.73" data-m-height="9.43">
 
-  <a href="trabajo.html" class="hotspot" style="left:55%; top:62%; width:8%; height:19%;" aria-label="Trabajo"><span class="hotspot-label">trabajo</span></a>
-  <img class="room-png room-png--trabajo" src="assets/ventana-vieja-trabajo.png" alt="" style="left:58.1725%; top:53.95%; width:6.555%; height:20.7%; animation-delay: 1.9s;">
+  <a href="trabajo.html" class="hotspot" style="left:55%; top:62%; width:8%; height:19%;" data-m-left="63.35" data-m-top="61.63" data-m-width="13.12" data-m-height="14.69" aria-label="Trabajo"><span class="hotspot-label">trabajo</span></a>
+  <img class="room-png room-png--trabajo" src="assets/ventana-vieja-trabajo.png" alt="" style="left:58.1725%; top:53.95%; width:6.555%; height:20.7%; animation-delay: 1.9s;" data-m-left="68.56" data-m-top="55.41" data-m-width="10.75" data-m-height="16.01">
 
-  <a href="escuchas.html" class="hotspot" style="left:27%; top:70%; width:4%; height:10%;" aria-label="Escuchas"><span class="hotspot-label">escuchas</span></a>
-  <img class="room-png room-png--escuchas" src="assets/puerta-escuchas.png" alt="" style="left:27.9825%; top:67.7%; width:3.335%; height:9.2%; animation-delay: 2.2s;">
+  <a href="escuchas.html" class="hotspot" style="left:27%; top:70%; width:4%; height:10%;" data-m-left="17.43" data-m-top="67.82" data-m-width="6.56" data-m-height="7.73" aria-label="Escuchas"><span class="hotspot-label">escuchas</span></a>
+  <img class="room-png room-png--escuchas" src="assets/puerta-escuchas.png" alt="" style="left:27.9825%; top:67.7%; width:3.335%; height:9.2%; animation-delay: 2.2s;" data-m-left="19.04" data-m-top="66.04" data-m-width="5.47" data-m-height="7.12">
 </div>
 
 <script>
@@ -39,6 +39,51 @@
       setTimeout(function () { h.classList.remove('tap-active'); }, 300);
     }, { passive: true });
   });
+
+  // En celular la imagen de fondo se muestra con object-fit: cover, así que
+  // el recorte visible depende del tamaño real de cada pantalla. Acá
+  // calculamos, para el tamaño real del dispositivo, dónde cae cada
+  // elemento (data-m-left/top/width/height son porcentajes contra la
+  // imagen ENTERA, no contra la pantalla) en vez de usar un único
+  // porcentaje fijo calculado para un solo celular de referencia.
+  var mq = window.matchMedia('(max-width: 820px)');
+  var img = document.querySelector('.house-img');
+  var wrap = document.querySelector('.house-wrap');
+  var els = document.querySelectorAll('.hotspot, .room-png');
+
+  function layoutMobile() {
+    if (!mq.matches) {
+      els.forEach(function (el) {
+        if (el.dataset.origStyle !== undefined) el.setAttribute('style', el.dataset.origStyle);
+      });
+      return;
+    }
+    var naturalW = img.naturalWidth, naturalH = img.naturalHeight;
+    if (!naturalW || !naturalH) return;
+
+    var cw = wrap.clientWidth, ch = wrap.clientHeight;
+    var scale = Math.max(cw / naturalW, ch / naturalH);
+    var dispW = naturalW * scale, dispH = naturalH * scale;
+    var posX = 0.43, posY = 0.5;
+    var cropLeft = (dispW - cw) * posX;
+    var cropTop = (dispH - ch) * posY;
+
+    els.forEach(function (el) {
+      if (el.dataset.origStyle === undefined) el.dataset.origStyle = el.getAttribute('style');
+      var l = parseFloat(el.dataset.mLeft) / 100 * naturalW * scale - cropLeft;
+      var t = parseFloat(el.dataset.mTop) / 100 * naturalH * scale - cropTop;
+      var w = parseFloat(el.dataset.mWidth) / 100 * naturalW * scale;
+      var h = parseFloat(el.dataset.mHeight) / 100 * naturalH * scale;
+      el.style.left = l + 'px';
+      el.style.top = t + 'px';
+      el.style.width = w + 'px';
+      el.style.height = h + 'px';
+    });
+  }
+
+  if (img.complete) layoutMobile(); else img.addEventListener('load', layoutMobile);
+  window.addEventListener('resize', layoutMobile);
+  window.addEventListener('orientationchange', layoutMobile);
 </script>
 
 </body>

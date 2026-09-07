@@ -6,18 +6,10 @@
   .house-wrap { height: 100dvh; overflow: hidden; }
   .house-img { width: 100%; height: 100%; object-fit: cover; object-position: 43% center; }
 
-  .hotspot[href="memorias.html"] { left: 16.27% !important; top: 28.37% !important; width: 30.93% !important; height: 17.79% !important; }
-  .hotspot[href="archivos.html"] { left: 13.45% !important; top: 45.39% !important; width: 33.75% !important; height: 32.48% !important; }
-  .hotspot[href="pensamientos.html"] { left: 50.0% !important; top: 64.72% !important; width: 16.87% !important; height: 10.05% !important; }
-  .hotspot[href="trabajo.html"] { left: 78.14% !important; top: 61.63% !important; width: 22.50% !important; height: 14.69% !important; }
-  .hotspot[href="escuchas.html"] { left: 0% !important; top: 67.82% !important; width: 11.25% !important; height: 7.73% !important; }
-
+  /* las posiciones de hotspots y room-png en celular las calcula el
+     script al final del body (dependen del recorte real de cada
+     pantalla con object-fit: cover), no van fijas acá */
   .room-png { display: block; }
-  .room-png--memorias { left: 17.62% !important; top: 31.01% !important; width: 35.58% !important; height: 16.46% !important; }
-  .room-png--archivos { left: 20.11% !important; top: 46.05% !important; width: 27.48% !important; height: 30.15% !important; }
-  .room-png--pensamientos { left: 56.19% !important; top: 60.94% !important; width: 13.25% !important; height: 9.43% !important; }
-  .room-png--trabajo { left: 87.06% !important; top: 55.41% !important; width: 18.43% !important; height: 16.01% !important; }
-  .room-png--escuchas { left: 0% !important; top: 66.04% !important; width: 9.34% !important; height: 7.12% !important; }
 
   .hotspot.tap-active + .room-png {
     transform: translateY(-9%) scale(1.09);
