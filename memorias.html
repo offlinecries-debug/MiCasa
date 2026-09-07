@@ -180,6 +180,30 @@
     .stage { width: 100%; height: 50vh; transform: scale(0.7); }
     .home-anchor { top: 24px; left: 24px; font-size: 1.35rem; }
   }
+
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    background: rgba(20,18,15,0.92);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5vh 5vw;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+  }
+  .lightbox.open { opacity: 1; pointer-events: auto; }
+  .lightbox img {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    display: block;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+    cursor: zoom-out;
+  }
 </style>
 </head>
 <body>
@@ -220,6 +244,27 @@
     <img class="photo photo--bodegon" src="assets/10100014.JPG" alt="">
   </div>
 </div>
+
+<div class="lightbox" id="lightbox">
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<script>
+  var lightbox = document.getElementById('lightbox');
+  var lightboxImg = document.getElementById('lightbox-img');
+
+  document.querySelectorAll('.photo').forEach(function (img) {
+    img.addEventListener('click', function () {
+      lightboxImg.src = img.src;
+      lightbox.classList.add('open');
+    });
+  });
+
+  lightbox.addEventListener('click', function () {
+    lightbox.classList.remove('open');
+    lightboxImg.src = '';
+  });
+</script>
 
 </body>
 </html>
