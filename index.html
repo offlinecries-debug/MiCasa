@@ -32,5 +32,14 @@
   <img class="room-png room-png--escuchas" src="assets/puerta-escuchas.png" alt="" style="left:27.9825%; top:67.7%; width:3.335%; height:9.2%; animation-delay: 2.2s;">
 </div>
 
+<script>
+  document.querySelectorAll('.hotspot').forEach(function (h) {
+    h.addEventListener('touchstart', function () {
+      h.classList.add('tap-active');
+      setTimeout(function () { h.classList.remove('tap-active'); }, 300);
+    }, { passive: true });
+  });
+</script>
+
 </body>
 </html>

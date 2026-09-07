@@ -170,12 +170,16 @@
     .home-anchor { top: 24px; left: 24px; font-size: 1.35rem; }
     .umbrales {
       top: auto;
-      bottom: 14px;
-      right: auto;
-      left: 50%;
-      transform: translateX(-50%);
+      bottom: 0;
+      right: 0;
+      left: 0;
+      transform: none;
+      width: 100%;
       flex-direction: row;
+      justify-content: center;
       gap: 20px;
+      padding: 22px 0 14px 0;
+      background: linear-gradient(to top, var(--room-paper-deep) 0%, var(--room-paper-deep) 55%, rgba(226,217,200,0) 100%);
     }
     .umbral img { height: 42px; }
     .umbral-label { font-size: 0.68rem; }
