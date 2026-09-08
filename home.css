@@ -90,3 +90,41 @@
 @media (max-width: 820px) {
   .costura-deco { display: none; }
 }
+
+/* humito saliendo de la chimenea — garabatos sueltos, estilo tinta */
+.chimney-smoke {
+  position: absolute;
+  pointer-events: none;
+  z-index: 4;
+}
+
+.smoke-wisp {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 85%;
+  height: auto;
+  overflow: visible;
+  opacity: 0;
+  filter: drop-shadow(0 0 5px rgba(255,253,248,0.95)) drop-shadow(0 0 9px rgba(255,253,248,0.7));
+  animation: smoke-rise 7s ease-out infinite;
+}
+.smoke-wisp path {
+  fill: none;
+  stroke: #1C1C1A;
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.smoke-wisp--1 { animation-delay: 0s; }
+.smoke-wisp--2 { width: 74%; animation-delay: -2.4s; }
+.smoke-wisp--3 { width: 96%; animation-delay: -4.8s; }
+
+@keyframes smoke-rise {
+  0%   { transform: translate(-50%, 0) scale(0.55) rotate(0deg); opacity: 0; }
+  14%  { opacity: 0.92; }
+  50%  { transform: translate(calc(-50% + 8%), -55%) scale(0.95) rotate(5deg); opacity: 0.78; }
+  85%  { opacity: 0.22; }
+  100% { transform: translate(calc(-50% - 6%), -102%) scale(1.35) rotate(-4deg); opacity: 0; }
+}
+
