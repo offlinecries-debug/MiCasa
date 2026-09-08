@@ -163,11 +163,48 @@
       border-radius: 2px;
     }
   }
+
+  /* costura decorativa al costado */
+  .costura-deco {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 24vw;
+    max-width: 380px;
+    height: auto;
+    pointer-events: none;
+    z-index: 6;
+    opacity: 0.85;
+    -webkit-mask-image: linear-gradient(black, black);
+    mask-image: linear-gradient(black, black);
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: top;
+    mask-position: top;
+    -webkit-mask-size: 100% 0%;
+    mask-size: 100% 0%;
+    animation: costura-sutura 7s ease-in-out infinite;
+  }
+
+  @keyframes costura-sutura {
+    0%   { -webkit-mask-size: 100% 0%;   mask-size: 100% 0%;   opacity: 0.85; }
+    42%  { -webkit-mask-size: 100% 100%; mask-size: 100% 100%; opacity: 0.85; }
+    65%  { -webkit-mask-size: 100% 100%; mask-size: 100% 100%; opacity: 0.85; }
+    75%  { -webkit-mask-size: 100% 100%; mask-size: 100% 100%; opacity: 0; }
+    76%  { -webkit-mask-size: 100% 0%;   mask-size: 100% 0%;   opacity: 0; }
+    100% { -webkit-mask-size: 100% 0%;   mask-size: 100% 0%;   opacity: 0.85; }
+  }
+
+  @media (max-width: 720px) {
+    .costura-deco { display: none; }
+  }
 </style>
 </head>
 <body>
 
 <div class="grain"></div>
+
+<img class="costura-deco" src="../assets/sutura.png" alt="">
 
 <a href="../index.html" class="home-anchor">mi casa</a>
 
