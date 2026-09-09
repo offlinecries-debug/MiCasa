@@ -90,3 +90,40 @@
 @media (max-width: 820px) {
   .costura-deco { display: none; }
 }
+
+/* frases escritas a mano, desparramadas por la pared — se van "dibujando"
+   al entrar y después tiemblan suave como si la mano no estuviera del
+   todo quieta */
+.frase-deco {
+  position: absolute;
+  height: auto;
+  pointer-events: none;
+  z-index: 3;
+  opacity: 0.85;
+  transform-origin: 50% 50%;
+  -webkit-mask-image: linear-gradient(black, black);
+  mask-image: linear-gradient(black, black);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: top;
+  mask-position: top;
+  -webkit-mask-size: 100% 0%;
+  mask-size: 100% 0%;
+  animation: frase-dibujar 1.4s ease-out both, frase-tiembla 5s ease-in-out infinite;
+}
+
+@keyframes frase-dibujar {
+  0%   { -webkit-mask-size: 100% 0%;   mask-size: 100% 0%; }
+  100% { -webkit-mask-size: 100% 100%; mask-size: 100% 100%; }
+}
+
+@keyframes frase-tiembla {
+  0%, 100% { transform: rotate(-1deg) scale(1); }
+  25%      { transform: rotate(0.6deg) scale(1.015); }
+  50%      { transform: rotate(1.2deg) scale(0.99); }
+  75%      { transform: rotate(-0.4deg) scale(1.01); }
+}
+
+@media (max-width: 820px) {
+  .frase-deco { display: none; }
+}
