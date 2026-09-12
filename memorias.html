@@ -18,10 +18,22 @@
   }
 
   body {
-    background:
+    background-image:
       radial-gradient(ellipse 120% 90% at 28% 0%, rgba(255,253,248,0.45), transparent 62%),
-      radial-gradient(ellipse 140% 100% at 82% 100%, rgba(206,192,166,0.3), transparent 58%),
-      linear-gradient(160deg, var(--room-paper) 0%, var(--room-paper-deep) 100%);
+      radial-gradient(ellipse 140% 100% at 82% 100%, rgba(20,18,15,0.28), transparent 58%),
+      url('assets/fondomemorias.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  @media (max-width: 720px) {
+    body {
+      background-image:
+        radial-gradient(ellipse 120% 90% at 28% 0%, rgba(255,253,248,0.45), transparent 62%),
+        radial-gradient(ellipse 140% 100% at 82% 100%, rgba(20,18,15,0.28), transparent 58%),
+        url('assets/fondomemorias-mobile.jpg');
+    }
   }
 
   /* grano sutil sobre la superficie */
