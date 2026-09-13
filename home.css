@@ -1,5 +1,5 @@
 :root { --home-gray: #D6D6D6; }
-@font-face { font-family: 'Cardinal'; src: url('assets/fonts/Cardinal.ttf') format('truetype'); } html, body { margin: 0; background: #c9c7c2; min-height: 100vh; min-height: 100dvh; cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Ctext x='2' y='24' font-size='26' fill='%231C1C1A'%3E%E2%9A%9C%3C/text%3E%3C/svg%3E") 16 16, auto; } .house-wrap { position: sticky; top: 0; z-index: 0; width: 100%; height: 100vh; height: 100svh; overflow: hidden; background-image: url('assets/casa/micasa-compu.jpg'); background-size: cover; background-position: 50% 50%; background-repeat: no-repeat; } a, .hotspot, .umbral { cursor: inherit; } .hotspot { position: absolute; display: block; z-index: 1; } .hotspot:hover { z-index: 5; } .hotspot-label { opacity: 0; transition: opacity 0.25s ease, background 0.15s, color 0.15s; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-family: 'Cardinal', serif; font-size: 2.6rem; color: #1C1C1A; background: #c9c7c2; padding: 0 12px; line-height: 1.1; border-radius: 0px; white-space: nowrap; pointer-events: none; } .hotspot:hover .hotspot-label { opacity: 1; background: #1C1C1A; color: #c9c7c2; } .hotspot[href="trabajo.html"] .hotspot-label { top: 35%; } .site-title { position: absolute; top: 5%; left: 6%; font-family: 'Cardinal', serif; font-size: 4.8rem; color: #1C1C1A; z-index: 5; margin: 0; } @media (max-width: 820px) {
+@font-face { font-family: 'Cardinal'; src: url('assets/fonts/Cardinal.ttf') format('truetype'); } html, body { margin: 0; background: #c9c7c2; min-height: 100vh; min-height: 100dvh; cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Ctext x='2' y='24' font-size='26' fill='%231C1C1A'%3E%E2%9A%9C%3C/text%3E%3C/svg%3E") 16 16, auto; } .house-wrap { position: relative; width: 100%; height: 100vh; height: 100svh; overflow: hidden; background-image: url('assets/casa/micasa-compu.jpg'); background-size: cover; background-position: 50% 50%; background-repeat: no-repeat; } a, .hotspot, .umbral { cursor: inherit; } .hotspot { position: absolute; display: block; z-index: 1; } .hotspot:hover { z-index: 5; } .hotspot-label { opacity: 0; transition: opacity 0.25s ease, background 0.15s, color 0.15s; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-family: 'Cardinal', serif; font-size: 2.6rem; color: #1C1C1A; background: #c9c7c2; padding: 0 12px; line-height: 1.1; border-radius: 0px; white-space: nowrap; pointer-events: none; } .hotspot:hover .hotspot-label { opacity: 1; background: #1C1C1A; color: #c9c7c2; } .hotspot[href="trabajo.html"] .hotspot-label { top: 35%; } .site-title { position: absolute; top: 5%; left: 6%; font-family: 'Cardinal', serif; font-size: 4.8rem; color: #1C1C1A; z-index: 5; margin: 0; } @media (max-width: 820px) {
   /* en celular usamos otra imagen de fondo (recortada distinto), con el
      mismo esquema de background-size:cover; las posiciones de hotspots,
      room-png y frase-deco las calcula el script al final del body (según
@@ -152,17 +152,6 @@
   .frase-deco { display: none; }
 }
 
-/* la imagen de fondo se va apagando al gris de la web a medida que
-   se hace scroll — capa sólida encima de todo lo demás de la casa */
-.house-fade {
-  position: absolute;
-  inset: 0;
-  background: var(--home-gray);
-  opacity: 0;
-  pointer-events: none;
-  z-index: 9;
-}
-
 /* ---------- dejá tu foto ---------- */
 .deja-tu-foto {
   position: relative;
@@ -174,9 +163,7 @@
 
 /* costura que une el panel de la casa con el de "dejá tu foto" —
    se repite de punta a punta del ancho (la tira se corta justo y se
-   repite si hace falta) y se va llenando de izquierda a derecha
-   atada al mismo progreso de scroll que apaga la casa al gris, no
-   es un timer aparte */
+   repite si hace falta); siempre visible, sin animación */
 .transicion-costura {
   position: absolute;
   top: 0;
@@ -192,14 +179,6 @@
   opacity: 0.8;
   pointer-events: none;
   z-index: 3;
-  -webkit-mask-image: linear-gradient(black, black);
-  mask-image: linear-gradient(black, black);
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: left center;
-  mask-position: left center;
-  -webkit-mask-size: 0% 100%;
-  mask-size: 0% 100%;
 }
 
 @media (max-width: 720px) {
@@ -210,11 +189,7 @@
   text-align: center;
   max-width: 40ch;
   margin: 0 auto 7vh auto;
-  opacity: 0;
-  transform: translateY(16px);
-  transition: opacity 0.9s ease, transform 0.9s ease;
 }
-.dtf-intro.is-visible { opacity: 1; transform: translateY(0); }
 
 .dtf-title {
   font-family: 'Cardinal', serif;

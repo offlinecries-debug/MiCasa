@@ -35,12 +35,10 @@
   <img class="frase-deco frase-deco--toca" src="assets/frases/frasetoca.png" alt="" style="left:5.44%; top:29.77%; width:14.31%; animation-delay: 0.8s, 2.2s;" data-d-left="5.44" data-d-top="29.77" data-d-width="14.31">
   <img class="frase-deco frase-deco--kiero" src="assets/frases/frasetekiero.png" alt="" style="left:2.2%; top:74.5%; width:14.3%; animation-delay: 1.2s, 2.6s;" data-d-left="2.2" data-d-top="74.5" data-d-width="14.3">
   <img class="frase-deco frase-deco--manyi" src="assets/frases/frasemanyi.png" alt="" style="left:75.36%; top:69.97%; width:22.29%; animation-delay: 1.6s, 3s;" data-d-left="75.36" data-d-top="69.97" data-d-width="22.29">
-
-  <div class="house-fade" id="houseFade"></div>
 </div>
 
 <section class="deja-tu-foto" id="dejaTuFoto">
-  <div class="transicion-costura" id="transicionCostura"></div>
+  <div class="transicion-costura"></div>
 
   <div class="dtf-intro" id="dtfIntro">
     <div class="dtf-title">dejá tu foto</div>
@@ -159,39 +157,6 @@
   layout();
   window.addEventListener('resize', layout);
   window.addEventListener('orientationchange', layout);
-
-  // el fondo de la casa se va apagando al gris de la web a medida
-  // que se hace scroll — se completa cuando se scrolleó un alto de
-  // pantalla, justo cuando la sección de abajo termina de cubrirla
-  var houseFade = document.getElementById('houseFade');
-  var transicionCostura = document.getElementById('transicionCostura');
-  function updateHouseFade() {
-    var dist = window.innerHeight || 1;
-    var progress = Math.min(Math.max(window.scrollY / dist, 0), 1);
-    houseFade.style.opacity = progress;
-    var maskSize = (progress * 100) + '% 100%';
-    transicionCostura.style.webkitMaskSize = maskSize;
-    transicionCostura.style.maskSize = maskSize;
-  }
-  updateHouseFade();
-  window.addEventListener('scroll', updateHouseFade, { passive: true });
-  window.addEventListener('resize', updateHouseFade);
-
-  // "dejá tu foto" se revela suave la primera vez que entra en pantalla
-  var dtfIntro = document.getElementById('dtfIntro');
-  if ('IntersectionObserver' in window) {
-    var introObserver = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          dtfIntro.classList.add('is-visible');
-          introObserver.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.3 });
-    introObserver.observe(dtfIntro);
-  } else {
-    dtfIntro.classList.add('is-visible');
-  }
 
   // ---------- dejá tu foto: cámara + captura + colección ----------
   (function () {
