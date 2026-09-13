@@ -31,8 +31,8 @@
  * funcionando con localStorage (privado de este navegador) para que
  * la función se pueda probar, y la página lo avisa honestamente.
  */
-var SUPABASE_URL = '';
-var SUPABASE_ANON_KEY = '';
+var SUPABASE_URL = 'https://xbzfqsmjgyxfndsmbrsl.supabase.co';
+var SUPABASE_ANON_KEY = 'sb_publishable_2VZX5k8PsfKa4SfFeXsf3Q_d_Y8QpyF';
 
 var PhotoStore = (function () {
   var LOCAL_KEY = 'mi-casa-deja-tu-foto';
