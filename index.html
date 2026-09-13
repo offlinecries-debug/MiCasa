@@ -40,6 +40,8 @@
 </div>
 
 <section class="deja-tu-foto" id="dejaTuFoto">
+  <img class="transicion-costura" id="transicionCostura" src="assets/costura-pagina.png" alt="">
+
   <div class="dtf-intro" id="dtfIntro">
     <div class="dtf-title">dejá tu foto</div>
     <div class="dtf-hint">hacé click para dejar una</div>
@@ -162,10 +164,14 @@
   // que se hace scroll — se completa cuando se scrolleó un alto de
   // pantalla, justo cuando la sección de abajo termina de cubrirla
   var houseFade = document.getElementById('houseFade');
+  var transicionCostura = document.getElementById('transicionCostura');
   function updateHouseFade() {
     var dist = window.innerHeight || 1;
     var progress = Math.min(Math.max(window.scrollY / dist, 0), 1);
     houseFade.style.opacity = progress;
+    var maskSize = (progress * 100) + '% 100%';
+    transicionCostura.style.webkitMaskSize = maskSize;
+    transicionCostura.style.maskSize = maskSize;
   }
   updateHouseFade();
   window.addEventListener('scroll', updateHouseFade, { passive: true });

@@ -172,6 +172,33 @@
   padding: 12vh 6vw 14vh 6vw;
 }
 
+/* costura que une el panel de la casa con el de "dejá tu foto" —
+   se va llenando de izquierda a derecha atada al mismo progreso de
+   scroll que apaga la casa al gris, no es un timer aparte */
+.transicion-costura {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(60vw, 560px);
+  height: auto;
+  opacity: 0.8;
+  pointer-events: none;
+  z-index: 3;
+  -webkit-mask-image: linear-gradient(black, black);
+  mask-image: linear-gradient(black, black);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: left center;
+  mask-position: left center;
+  -webkit-mask-size: 0% 100%;
+  mask-size: 0% 100%;
+}
+
+@media (max-width: 720px) {
+  .transicion-costura { width: 82vw; }
+}
+
 .dtf-intro {
   text-align: center;
   max-width: 40ch;
