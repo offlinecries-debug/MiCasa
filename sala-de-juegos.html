@@ -1,0 +1,583 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sala de juegos — Mi Casa</title>
+<link rel="stylesheet" href="style.css">
+<style>
+
+  :root {
+    --room-paper: #D6D6D6;
+    --room-paper-deep: #C6C6C6;
+  }
+
+  html, body {
+    margin: 0;
+    min-height: 100%;
+  }
+
+  body {
+    background: var(--room-paper);
+  }
+
+  .grain {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.045;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* rayado tipo pantalla vieja, muy sutil — distingue este rincón del
+     resto de la casa sin romper la paleta general */
+  .scanlines {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.05;
+    background-image: repeating-linear-gradient(
+      to bottom,
+      #000 0px,
+      #000 1px,
+      transparent 1px,
+      transparent 3px
+    );
+    z-index: 1;
+  }
+
+  .home-anchor {
+    position: fixed;
+    top: 36px;
+    left: 44px;
+    font-family: 'Cardinal', serif;
+    font-size: 1.65rem;
+    color: var(--ink);
+    text-decoration: none;
+    opacity: 0.82;
+    z-index: 10;
+  }
+  .home-anchor:hover { opacity: 1; text-decoration: none; }
+
+  .umbrales {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 4vw;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 22px;
+  }
+  .umbral { display: flex; flex-direction: column; align-items: center; gap: 6px; text-decoration: none; }
+  .umbral img {
+    height: 78px; width: auto; display: block; opacity: 0.75;
+    filter: drop-shadow(0 8px 14px rgba(32,29,25,0.18));
+    transition: transform 0.35s cubic-bezier(.2,.8,.3,1), opacity 0.35s ease;
+  }
+  .umbral-label { font-family: 'Cardinal', serif; font-size: 1rem; color: var(--ink); opacity: 0.75; }
+  .umbral:hover img { transform: scale(1.1); opacity: 1; }
+
+  /* ---------- sala de juegos ---------- */
+  .juegos-wrap {
+    position: relative;
+    z-index: 5;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 12vh 0 8vh 0;
+  }
+
+  .room-title {
+    font-family: 'Cardinal', serif;
+    font-size: 3rem;
+    color: var(--ink);
+    opacity: 0.88;
+    margin: 0 9vw 1vh 9vw;
+  }
+
+  .room-subtitle {
+    font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+    font-size: 0.78rem;
+    color: var(--mist);
+    letter-spacing: 0.02em;
+    margin: 0 9vw 6vh 9vw;
+  }
+
+  .games-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 28px;
+    padding: 0 9vw 40px 9vw;
+  }
+
+  .game-tile {
+    width: 190px;
+    text-align: left;
+    background: none;
+    border: 1px dashed rgba(28,28,26,0.35);
+    padding: 16px;
+    font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+    color: var(--ink);
+    cursor: inherit;
+    transition: background 0.2s ease, transform 0.2s ease;
+  }
+  .game-tile:hover { background: rgba(28,28,26,0.05); transform: translateY(-3px); }
+
+  .game-tile-index {
+    font-size: 0.78rem;
+    color: var(--mist);
+    margin-bottom: 10px;
+  }
+  .game-tile-title {
+    font-size: 1.05rem;
+    letter-spacing: 0.02em;
+  }
+  .game-tile-hint {
+    font-size: 0.68rem;
+    color: var(--mist);
+    margin-top: 10px;
+    opacity: 0.8;
+  }
+
+  /* ---------- ventana flotante estilo app vieja ---------- */
+  .game-window {
+    position: fixed;
+    top: 16vh;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 272px;
+    max-width: calc(100vw - 32px);
+    background: #D4D2C8;
+    border: 1px solid #1C1C1A;
+    box-shadow: 3px 3px 0 rgba(0,0,0,0.28);
+    font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+    z-index: 60;
+  }
+  .game-window[hidden] { display: none; }
+
+  .win-titlebar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #1C1C1A;
+    color: #D4D2C8;
+    padding: 5px 6px 5px 8px;
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    cursor: move;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+  .win-controls { display: flex; gap: 4px; }
+  .win-btn {
+    width: 15px;
+    height: 15px;
+    padding: 0;
+    background: #D4D2C8;
+    color: #1C1C1A;
+    border: 1px solid #1C1C1A;
+    font-family: inherit;
+    font-size: 0.68rem;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: inherit;
+  }
+
+  .win-body { padding: 10px; }
+  .win-body[data-collapsed="true"] { display: none; }
+
+  .cam-permission { text-align: center; font-size: 0.68rem; line-height: 1.6; color: #1C1C1A; }
+  .cam-permission button {
+    display: block;
+    width: 100%;
+    margin-top: 8px;
+    background: #D4D2C8;
+    border: 1px solid #1C1C1A;
+    padding: 6px;
+    font-family: inherit;
+    font-size: 0.68rem;
+    letter-spacing: 0.03em;
+    cursor: inherit;
+  }
+  .cam-permission button:active { background: #bcbab0; }
+  .cam-note { font-size: 0.6rem; opacity: 0.65; margin-top: 10px; }
+
+  #camDisplay {
+    display: block;
+    width: 100%;
+    height: auto;
+    background: #000;
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    border: 1px solid #1C1C1A;
+    cursor: inherit;
+  }
+  #camDisplay[hidden] { display: none; }
+  .cam-caption {
+    margin-top: 7px;
+    font-size: 0.6rem;
+    letter-spacing: 0.04em;
+    color: #1C1C1A;
+    opacity: 0.55;
+    text-align: center;
+  }
+  .cam-caption[hidden] { display: none; }
+
+  @media (max-width: 720px) {
+    .home-anchor { top: 24px; left: 24px; font-size: 1.35rem; }
+    .umbrales {
+      top: auto;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      transform: none;
+      width: 100%;
+      flex-direction: row;
+      justify-content: center;
+      gap: 30px;
+      padding: 22px 0 14px 0;
+      background-image: url('assets/barra.jpg');
+      background-size: cover;
+      background-position: center;
+    }
+    .umbral img { height: 42px; filter: drop-shadow(0 4px 5px rgba(0,0,0,0.55)) drop-shadow(0 0 7px rgba(0,0,0,0.4)); }
+    .umbral-label {
+      font-size: 0.92rem;
+      opacity: 1;
+      color: #1C1C1A;
+      background: rgba(238,232,220,0.88);
+      padding: 2px 7px;
+      border-radius: 2px;
+    }
+    .room-title { font-size: 2.1rem; margin: 0 6vw 1vh 6vw; }
+    .room-subtitle { margin: 0 6vw 4vh 6vw; }
+    .games-grid { padding: 0 6vw 30px 6vw; gap: 20px; }
+    .game-window { top: 10vh; width: calc(100vw - 32px); }
+  }
+
+  /* costura decorativa al costado */
+  .costura-deco {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 24vw;
+    max-width: 380px;
+    height: auto;
+    pointer-events: none;
+    z-index: 6;
+    opacity: 0.85;
+    -webkit-mask-image: linear-gradient(black, black);
+    mask-image: linear-gradient(black, black);
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: top;
+    mask-position: top;
+    -webkit-mask-size: 100% 0%;
+    mask-size: 100% 0%;
+    animation: costura-sutura 7s ease-in-out infinite;
+  }
+
+  @keyframes costura-sutura {
+    0%   { -webkit-mask-size: 100% 0%;   mask-size: 100% 0%;   opacity: 0.85; }
+    42%  { -webkit-mask-size: 100% 100%; mask-size: 100% 100%; opacity: 0.85; }
+    65%  { -webkit-mask-size: 100% 100%; mask-size: 100% 100%; opacity: 0.85; }
+    75%  { -webkit-mask-size: 100% 100%; mask-size: 100% 100%; opacity: 0; }
+    76%  { -webkit-mask-size: 100% 0%;   mask-size: 100% 0%;   opacity: 0; }
+    100% { -webkit-mask-size: 100% 0%;   mask-size: 100% 0%;   opacity: 0.85; }
+  }
+
+  @media (max-width: 720px) {
+    .costura-deco { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="grain"></div>
+<div class="scanlines"></div>
+
+<img class="costura-deco" src="assets/sutura.png" alt="">
+
+<a href="index.html" class="home-anchor">mi casa</a>
+
+<div class="umbrales">
+  <a href="memorias.html" class="umbral" aria-label="ir a Memorias">
+    <img src="assets/iconos/ventana-redonda-memorias.png" alt="">
+    <span class="umbral-label">memorias</span>
+  </a>
+  <a href="archivos.html" class="umbral" aria-label="ir a Archivos">
+    <img src="assets/iconos/puerta-archivos.png" alt="">
+    <span class="umbral-label">archivos</span>
+  </a>
+  <a href="pensamientos.html" class="umbral" aria-label="ir a Pensamientos">
+    <img src="assets/iconos/buzon-pensamientos.png" alt="">
+    <span class="umbral-label">pensamientos</span>
+  </a>
+  <a href="escuchas.html" class="umbral" aria-label="ir a Escuchas">
+    <img src="assets/iconos/puerta-escuchas.png" alt="">
+    <span class="umbral-label">escuchas</span>
+  </a>
+  <a href="trabajo.html" class="umbral" aria-label="ir a Trabajo">
+    <img src="assets/iconos/ventana-vieja-trabajo.png" alt="">
+    <span class="umbral-label">trabajo</span>
+  </a>
+</div>
+
+<div class="juegos-wrap">
+  <div class="room-title">sala de juegos</div>
+  <div class="room-subtitle">experimentos / mini juegos — no te va a llevar a ningún lado</div>
+
+  <div class="games-grid">
+    <button class="game-tile" id="openCamera" type="button">
+      <div class="game-tile-index">(01)</div>
+      <div class="game-tile-title">CÁMARA</div>
+      <div class="game-tile-hint">click para abrir CAMERA.EXE</div>
+    </button>
+  </div>
+</div>
+
+<!-- ventana flotante de la cámara -->
+<div class="game-window" id="cameraWindow" hidden>
+  <div class="win-titlebar" id="winTitlebar">
+    <span class="win-title">CAMERA.EXE</span>
+    <span class="win-controls">
+      <button class="win-btn" id="winMin" type="button" aria-label="minimizar">_</button>
+      <button class="win-btn" id="winClose" type="button" aria-label="cerrar">x</button>
+    </span>
+  </div>
+
+  <div class="win-body" id="winBody">
+    <div class="cam-permission" id="camPermission">
+      <p>este experimento quiere<br>usar tu cámara.</p>
+      <button id="camAllow" type="button">permitir cámara</button>
+      <button id="camSkip" type="button">continuar sin cámara</button>
+      <div class="cam-note">nada se guarda ni se envía.<br>todo pasa en tu navegador.</div>
+    </div>
+
+    <canvas id="camDisplay" width="240" height="180" hidden></canvas>
+    <div class="cam-caption" id="camCaption" hidden>click en la imagen para cambiar filtro</div>
+  </div>
+</div>
+
+<video id="camVideo" autoplay playsinline muted style="display:none;"></video>
+<canvas id="camSmall" width="80" height="60" style="display:none;"></canvas>
+
+<script>
+  (function () {
+    var openBtn = document.getElementById('openCamera');
+    var win = document.getElementById('cameraWindow');
+    var titlebar = document.getElementById('winTitlebar');
+    var winBody = document.getElementById('winBody');
+    var minBtn = document.getElementById('winMin');
+    var closeBtn = document.getElementById('winClose');
+
+    var permissionBox = document.getElementById('camPermission');
+    var allowBtn = document.getElementById('camAllow');
+    var skipBtn = document.getElementById('camSkip');
+    var caption = document.getElementById('camCaption');
+
+    var video = document.getElementById('camVideo');
+    var smallCanvas = document.getElementById('camSmall');
+    var smallCtx = smallCanvas.getContext('2d', { willReadFrequently: true });
+    var dispCanvas = document.getElementById('camDisplay');
+    var dispCtx = dispCanvas.getContext('2d');
+
+    var SMALL_W = smallCanvas.width, SMALL_H = smallCanvas.height;
+    var FILTERS = ['none', 'grayscale(1) contrast(1.1)', 'sepia(0.85) saturate(1.15)'];
+    var state = 0;
+    var stream = null;
+    var usingPlaceholder = false;
+    var frameTimer = null;
+    var minimized = false;
+    var audioCtx = null;
+
+    var supportsCamera = !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
+    if (!supportsCamera) {
+      allowBtn.style.display = 'none';
+    }
+
+    function clamp(v) { return v < 0 ? 0 : (v > 255 ? 255 : v); }
+
+    function drawPlaceholderFrame() {
+      var imgData = smallCtx.createImageData(SMALL_W, SMALL_H);
+      var d = imgData.data;
+      for (var i = 0; i < d.length; i += 4) {
+        var v = Math.random() * 55 + 35;
+        d[i] = v; d[i + 1] = v; d[i + 2] = v; d[i + 3] = 255;
+      }
+      smallCtx.putImageData(imgData, 0, 0);
+    }
+
+    function drawFrame() {
+      if (!usingPlaceholder && video.readyState >= 2) {
+        try {
+          smallCtx.drawImage(video, 0, 0, SMALL_W, SMALL_H);
+        } catch (e) {
+          drawPlaceholderFrame();
+        }
+      } else {
+        drawPlaceholderFrame();
+      }
+
+      // ruido digital sutil
+      var imgData = smallCtx.getImageData(0, 0, SMALL_W, SMALL_H);
+      var d = imgData.data;
+      for (var i = 0; i < d.length; i += 4) {
+        var n = (Math.random() - 0.5) * 24;
+        d[i] = clamp(d[i] + n);
+        d[i + 1] = clamp(d[i + 1] + n);
+        d[i + 2] = clamp(d[i + 2] + n);
+      }
+      smallCtx.putImageData(imgData, 0, 0);
+
+      // artefacto ocasional: una franja horizontal se corre un poco
+      if (Math.random() < 0.08) {
+        var row = Math.floor(Math.random() * (SMALL_H - 3));
+        var shift = Math.round((Math.random() - 0.5) * 8);
+        smallCtx.drawImage(smallCanvas, 0, row, SMALL_W, 2, shift, row, SMALL_W, 2);
+      }
+
+      dispCtx.imageSmoothingEnabled = false;
+      dispCtx.filter = FILTERS[state];
+      dispCtx.clearRect(0, 0, dispCanvas.width, dispCanvas.height);
+      dispCtx.drawImage(smallCanvas, 0, 0, dispCanvas.width, dispCanvas.height);
+      dispCtx.filter = 'none';
+    }
+
+    function startFeed() {
+      permissionBox.hidden = true;
+      dispCanvas.hidden = false;
+      caption.hidden = false;
+      if (!frameTimer) frameTimer = setInterval(drawFrame, 130); // ~7-8 fps a propósito
+    }
+
+    allowBtn.addEventListener('click', function () {
+      navigator.mediaDevices.getUserMedia({
+        video: { facingMode: 'user', width: { ideal: 320 }, height: { ideal: 240 } },
+        audio: false
+      }).then(function (s) {
+        stream = s;
+        video.srcObject = s;
+        video.play().catch(function () { /* algunos navegadores requieren un gesto extra; el frame va a placeholder mientras tanto */ });
+        usingPlaceholder = false;
+        startFeed();
+      }).catch(function () {
+        usingPlaceholder = true;
+        startFeed();
+      });
+    });
+
+    skipBtn.addEventListener('click', function () {
+      usingPlaceholder = true;
+      startFeed();
+    });
+
+    function playShutterSound() {
+      try {
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        var t = audioCtx.currentTime;
+        var osc = audioCtx.createOscillator();
+        var gain = audioCtx.createGain();
+        osc.type = 'square';
+        osc.frequency.setValueAtTime(1100, t);
+        osc.frequency.exponentialRampToValueAtTime(180, t + 0.06);
+        gain.gain.setValueAtTime(0.045, t);
+        gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.08);
+        osc.connect(gain).connect(audioCtx.destination);
+        osc.start(t);
+        osc.stop(t + 0.09);
+      } catch (e) { /* audio bloqueado por el navegador: seguimos sin sonido */ }
+    }
+
+    dispCanvas.addEventListener('click', function () {
+      state = (state + 1) % 3;
+      playShutterSound();
+    });
+
+    function stopCamera() {
+      if (stream) {
+        stream.getTracks().forEach(function (t) { t.stop(); });
+        stream = null;
+      }
+      if (frameTimer) {
+        clearInterval(frameTimer);
+        frameTimer = null;
+      }
+      usingPlaceholder = false;
+      state = 0;
+      permissionBox.hidden = false;
+      dispCanvas.hidden = true;
+      caption.hidden = true;
+    }
+
+    function openWindow() {
+      win.hidden = false;
+      minimized = false;
+      winBody.dataset.collapsed = 'false';
+    }
+
+    openBtn.addEventListener('click', openWindow);
+
+    closeBtn.addEventListener('click', function () {
+      stopCamera();
+      win.hidden = true;
+    });
+
+    minBtn.addEventListener('click', function () {
+      minimized = !minimized;
+      winBody.dataset.collapsed = minimized ? 'true' : 'false';
+      if (minimized && frameTimer) {
+        clearInterval(frameTimer);
+        frameTimer = null;
+      } else if (!minimized && !dispCanvas.hidden && !frameTimer) {
+        frameTimer = setInterval(drawFrame, 130);
+      }
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !win.hidden) {
+        stopCamera();
+        win.hidden = true;
+      }
+    });
+
+    // arrastrar la ventana desde la barra de título — sensación de
+    // ventana de sistema operativo viejo
+    var dragPointerId = null, dragOffsetX = 0, dragOffsetY = 0;
+
+    titlebar.addEventListener('pointerdown', function (e) {
+      if (e.target.closest('.win-btn')) return;
+      var rect = win.getBoundingClientRect();
+      dragOffsetX = e.clientX - rect.left;
+      dragOffsetY = e.clientY - rect.top;
+      dragPointerId = e.pointerId;
+      win.style.left = rect.left + 'px';
+      win.style.top = rect.top + 'px';
+      win.style.transform = 'none';
+      titlebar.setPointerCapture(e.pointerId);
+    });
+
+    titlebar.addEventListener('pointermove', function (e) {
+      if (dragPointerId !== e.pointerId) return;
+      var maxLeft = window.innerWidth - win.offsetWidth;
+      var maxTop = window.innerHeight - win.offsetHeight;
+      var newLeft = Math.min(Math.max(0, e.clientX - dragOffsetX), Math.max(0, maxLeft));
+      var newTop = Math.min(Math.max(0, e.clientY - dragOffsetY), Math.max(0, maxTop));
+      win.style.left = newLeft + 'px';
+      win.style.top = newTop + 'px';
+    });
+
+    titlebar.addEventListener('pointerup', function (e) {
+      dragPointerId = null;
+    });
+  })();
+</script>
+
+</body>
+</html>
