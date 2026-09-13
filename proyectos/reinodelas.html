@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Trabajo — Mi Casa</title>
-<link rel="stylesheet" href="style.css">
+<title>EL REINO DE LAS NUBES — Trabajo — Mi Casa</title>
+<link rel="stylesheet" href="../style.css">
 <style>
 
   :root {
@@ -19,6 +19,8 @@
 
   body {
     background: var(--room-paper);
+    font-family: Georgia, 'Times New Roman', serif;
+    color: var(--ink);
   }
 
   .grain {
@@ -63,83 +65,59 @@
   .umbral-label { font-family: 'Cardinal', serif; font-size: 1rem; color: var(--ink); opacity: 0.75; }
   .umbral:hover img { transform: scale(1.1); opacity: 1; }
 
-  /* ---------- índice de proyectos ---------- */
-  .archivos-wrap {
+  .project-column {
     position: relative;
     z-index: 5;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 12vh 0 8vh 0;
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 16vh 24px 18vh 24px;
   }
 
-  .room-title {
-    font-family: 'Cardinal', serif;
-    font-size: 3rem;
-    color: var(--ink);
-    opacity: 0.88;
-    margin: 0 0 6vh 9vw;
-  }
-
-  .gallery {
-    display: flex;
-    gap: 34px;
-    overflow-x: auto;
-    padding: 10px 9vw 40px 9vw;
-    padding-right: max(9vw, 180px); /* deja aire para no chocar con las ventanas */
-    scrollbar-width: thin;
-  }
-
-  .gallery-item {
-    flex: 0 0 auto;
-    width: 220px;
+  .back-link {
+    font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+    font-size: 0.82rem;
+    color: var(--mist);
     text-decoration: none;
-    color: var(--ink);
   }
 
-  .gallery-index {
+  .project-meta {
     font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
     font-size: 0.78rem;
     color: var(--mist);
-    margin-bottom: 10px;
+    letter-spacing: 0.02em;
+    margin-top: 22px;
   }
 
-  .gallery-cover {
-    width: 100%;
-    aspect-ratio: 3 / 4;
-    background: #C6C6C6;
-    border: 1px dashed rgba(28,28,26,0.25);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 16px;
-    font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
-    font-size: 0.78rem;
-    color: var(--mist);
-    filter: drop-shadow(0 8px 14px rgba(28,28,26,0.14));
-    transition: transform 0.35s cubic-bezier(.2,.8,.3,1);
-    overflow: hidden;
-  }
-  .gallery-cover img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
-
-  .gallery-item:hover .gallery-cover {
-    transform: translateY(-6px);
-  }
-
-  .gallery-title {
+  .project-column h1 {
     font-family: Georgia, serif;
-    font-size: 1.05rem;
-    margin-top: 14px;
+    font-weight: 400;
+    font-size: 2rem;
+    line-height: 1.2;
+    margin: 10px 0 30px 0;
+  }
+
+  .project-column p {
+    font-size: 1.02rem;
+    line-height: 1.65;
+    margin: 0 0 24px 0;
+    max-width: 60ch;
+  }
+
+  .project-video-vimeo {
+    margin: 30px 0;
+    filter: drop-shadow(0 10px 20px rgba(28,28,26,0.18));
+  }
+
+  .project-video-caption {
+    font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+    font-size: 0.78rem;
+    color: var(--mist);
+    margin-top: -18px;
+    margin-bottom: 28px;
   }
 
   @media (max-width: 720px) {
+    .project-column { padding: 12vh 20px 14vh 20px; max-width: 100%; }
     .home-anchor { top: 24px; left: 24px; font-size: 1.35rem; }
     .umbrales {
       top: auto;
@@ -152,7 +130,7 @@
       justify-content: center;
       gap: 30px;
       padding: 22px 0 14px 0;
-      background-image: url('assets/barra.jpg');
+      background-image: url('../assets/barra.jpg');
       background-size: cover;
       background-position: center;
     }
@@ -165,9 +143,6 @@
       padding: 2px 7px;
       border-radius: 2px;
     }
-    .room-title { font-size: 2.1rem; margin: 0 0 4vh 6vw; }
-    .gallery { padding: 10px 6vw 30px 6vw; gap: 20px; }
-    .gallery-item { width: 160px; }
   }
 
   /* costura decorativa al costado */
@@ -210,54 +185,41 @@
 
 <div class="grain"></div>
 
-<img class="costura-deco" src="assets/sutura.png" alt="">
+<img class="costura-deco" src="../assets/sutura.png" alt="">
 
-<a href="index.html" class="home-anchor">mi casa</a>
+<a href="../index.html" class="home-anchor">mi casa</a>
 
 <div class="umbrales">
-  <a href="memorias.html" class="umbral" aria-label="ir a Memorias">
-    <img src="assets/iconos/ventana-redonda-memorias.png" alt="">
+  <a href="../memorias.html" class="umbral" aria-label="ir a Memorias">
+    <img src="../assets/iconos/ventana-redonda-memorias.png" alt="">
     <span class="umbral-label">memorias</span>
   </a>
-  <a href="archivos.html" class="umbral" aria-label="ir a Archivos">
-    <img src="assets/iconos/puerta-archivos.png" alt="">
+  <a href="../archivos.html" class="umbral" aria-label="ir a Archivos">
+    <img src="../assets/iconos/puerta-archivos.png" alt="">
     <span class="umbral-label">archivos</span>
   </a>
-  <a href="pensamientos.html" class="umbral" aria-label="ir a Pensamientos">
-    <img src="assets/iconos/buzon-pensamientos.png" alt="">
+  <a href="../pensamientos.html" class="umbral" aria-label="ir a Pensamientos">
+    <img src="../assets/iconos/buzon-pensamientos.png" alt="">
     <span class="umbral-label">pensamientos</span>
   </a>
-  <a href="escuchas.html" class="umbral" aria-label="ir a Escuchas">
-    <img src="assets/iconos/puerta-escuchas.png" alt="">
+  <a href="../escuchas.html" class="umbral" aria-label="ir a Escuchas">
+    <img src="../assets/iconos/puerta-escuchas.png" alt="">
     <span class="umbral-label">escuchas</span>
   </a>
 </div>
 
-<div class="archivos-wrap">
-  <div class="room-title">trabajo</div>
+<div class="project-column">
+  <a href="../trabajo.html" class="back-link">&larr; volver a trabajo</a>
 
-  <!-- Cada proyecto nuevo se agrega acá como un .gallery-item más.
-       Reemplazá el contenido de .gallery-cover por una <img> real
-       cuando tengas la tapa. -->
-  <div class="gallery">
+  <div class="project-meta">video</div>
+  <h1>EL REINO DE LAS NUBES</h1>
 
-    <a href="proyectos/fashion-films.html" class="gallery-item">
-      <div class="gallery-index">(01)</div>
-      <div class="gallery-cover">
-        <img src="proyectos/ffkala.png" alt="">
-      </div>
-      <div class="gallery-title">FASHION FILMS</div>
-    </a>
-
-    <a href="proyectos/reinodelas.html" class="gallery-item">
-      <div class="gallery-index">(02)</div>
-      <div class="gallery-cover">
-        <img src="proyectos/portadareinodelas.jpg" alt="">
-      </div>
-      <div class="gallery-title">EL REINO DE LAS NUBES</div>
-    </a>
-
+  <div class="project-video-vimeo">
+    <div style="padding:60% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1226291920?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="El reino de las nubes | Escena favorita"></iframe></div>
+    <script src="https://player.vimeo.com/api/player.js"></script>
   </div>
+  <div class="project-video-caption">escena favorita</div>
+
 </div>
 
 </body>
