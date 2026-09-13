@@ -81,6 +81,7 @@
     <div class="win-body">
       <img id="dtfPreviewImg" alt="" class="dtf-preview-img">
       <input type="text" id="dtfNameInput" class="dtf-name-input" placeholder="nombre_de_archivo" maxlength="24">
+      <div class="dtf-save-status" id="dtfSaveStatus" hidden></div>
       <div class="dtf-confirm-actions">
         <button id="dtfRetake" type="button">sacar otra</button>
         <button id="dtfSave" type="button">guardar</button>
@@ -92,6 +93,7 @@
 <video id="dtfVideo" autoplay playsinline muted style="display:none;"></video>
 <canvas id="dtfSmall" width="80" height="60" style="display:none;"></canvas>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script src="assets/js/camera-fx.js"></script>
 <script src="assets/js/photo-store.js"></script>
 <script>
@@ -205,6 +207,7 @@
     var nameInput = document.getElementById('dtfNameInput');
     var retakeBtn = document.getElementById('dtfRetake');
     var saveBtn = document.getElementById('dtfSave');
+    var saveStatus = document.getElementById('dtfSaveStatus');
     var pendingCapture = null;
 
     var fx = createCameraFx({
@@ -254,7 +257,7 @@
       return options[lastTileRotation];
     }
 
-    function addPhotoTile(name, imageSrc) {
+    function addPhotoTile(name, imageSrc, atStart) {
       var tile = document.createElement('div');
       tile.className = 'dtf-window dtf-photo';
       tile.style.transform = 'rotate(' + nextRotation() + 'deg)';
@@ -276,19 +279,20 @@
 
       tile.appendChild(titlebar);
       tile.appendChild(body);
-      collection.appendChild(tile);
-    }
 
-    function sanitizeName(raw) {
-      var n = (raw || '').trim();
-      if (!n) n = 'img_' + Math.floor(Math.random() * 900 + 100);
-      return n.slice(0, 24);
+      if (atStart) {
+        var cameraTile = collection.querySelector('.dtf-window--camera');
+        collection.insertBefore(tile, (cameraTile && cameraTile.nextSibling) || collection.firstChild);
+      } else {
+        collection.appendChild(tile);
+      }
     }
 
     shutterBtn.addEventListener('click', function () {
       pendingCapture = fx.captureDataURL('image/jpeg', 0.85);
       previewImg.src = pendingCapture;
       nameInput.value = '';
+      saveStatus.hidden = true;
       confirmBox.hidden = false;
       fx.stop();
       setTimeout(function () { nameInput.focus(); }, 50);
@@ -303,17 +307,31 @@
     retakeBtn.addEventListener('click', function () { closeConfirm(true); });
     confirmClose.addEventListener('click', function () { closeConfirm(true); });
 
+    function setSaving(isSaving) {
+      saveBtn.disabled = isSaving;
+      retakeBtn.disabled = isSaving;
+      nameInput.disabled = isSaving;
+    }
+
     saveBtn.addEventListener('click', function () {
       if (!pendingCapture) return;
-      var name = sanitizeName(nameInput.value);
-      saveBtn.disabled = true;
-      PhotoStore.save(name, pendingCapture).then(function () {
-        addPhotoTile(name, pendingCapture);
-        saveBtn.disabled = false;
-        closeConfirm(true);
+      setSaving(true);
+      saveStatus.hidden = false;
+      saveStatus.dataset.error = 'false';
+      saveStatus.textContent = 'guardando...';
+
+      PhotoStore.save(nameInput.value, pendingCapture).then(function (saved) {
+        saveStatus.textContent = 'guardada';
+        addPhotoTile(saved.name, saved.image, true);
+        setTimeout(function () {
+          setSaving(false);
+          saveStatus.hidden = true;
+          closeConfirm(true);
+        }, 450);
       }).catch(function () {
-        saveBtn.disabled = false;
-        closeConfirm(true);
+        setSaving(false);
+        saveStatus.dataset.error = 'true';
+        saveStatus.textContent = 'no se pudo guardar — revisá tu conexión e intentá de nuevo.';
       });
     });
 
@@ -327,6 +345,9 @@
       photos.forEach(function (p) { addPhotoTile(p.name, p.image); });
       if (!PhotoStore.isRemote()) storageNote.hidden = false;
     }).catch(function () {
+      if (PhotoStore.isRemote()) {
+        storageNote.textContent = 'no se pudo cargar la colección compartida por ahora — revisá tu conexión.';
+      }
       storageNote.hidden = false;
     });
   })();
