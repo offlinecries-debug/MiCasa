@@ -35,8 +35,65 @@
   <img class="frase-deco frase-deco--toca" src="assets/frases/frasetoca.png" alt="" style="left:5.44%; top:29.77%; width:14.31%; animation-delay: 0.8s, 2.2s;" data-d-left="5.44" data-d-top="29.77" data-d-width="14.31">
   <img class="frase-deco frase-deco--kiero" src="assets/frases/frasetekiero.png" alt="" style="left:2.2%; top:74.5%; width:14.3%; animation-delay: 1.2s, 2.6s;" data-d-left="2.2" data-d-top="74.5" data-d-width="14.3">
   <img class="frase-deco frase-deco--manyi" src="assets/frases/frasemanyi.png" alt="" style="left:75.36%; top:69.97%; width:22.29%; animation-delay: 1.6s, 3s;" data-d-left="75.36" data-d-top="69.97" data-d-width="22.29">
+
+  <div class="house-fade" id="houseFade"></div>
 </div>
 
+<section class="deja-tu-foto" id="dejaTuFoto">
+  <div class="dtf-intro" id="dtfIntro">
+    <div class="dtf-title">dejá tu foto</div>
+    <div class="dtf-hint">hacé click para dejar una</div>
+  </div>
+
+  <div class="dtf-collection" id="dtfCollection">
+    <div class="dtf-window dtf-window--camera">
+      <div class="win-titlebar">
+        <span class="win-title">CAMERA.EXE</span>
+      </div>
+      <div class="win-body">
+        <div class="dtf-cam-permission" id="dtfPermission">
+          <p>este experimento quiere<br>usar tu cámara.</p>
+          <button id="dtfAllow" type="button">permitir cámara</button>
+          <button id="dtfSkip" type="button">continuar sin cámara</button>
+          <div class="dtf-cam-note">nada se guarda ni se envía<br>a otro lado que esta colección.</div>
+        </div>
+
+        <canvas id="dtfDisplay" width="240" height="180" hidden></canvas>
+        <button class="dtf-shutter" id="dtfShutter" type="button" hidden>[ sacar foto ]</button>
+        <div class="dtf-caption" id="dtfCaption" hidden>tocá la imagen para cambiar filtro</div>
+      </div>
+    </div>
+    <!-- las fotos guardadas se agregan acá con JS -->
+  </div>
+
+  <div class="dtf-storage-note" id="dtfStorageNote" hidden>
+    por ahora estas fotos quedan guardadas solo en tu navegador —
+    todavía no hay un archivo compartido entre visitantes conectado.
+  </div>
+</section>
+
+<div class="dtf-confirm" id="dtfConfirm" hidden>
+  <div class="dtf-confirm-window">
+    <div class="win-titlebar">
+      <span class="win-title">GUARDAR.EXE</span>
+      <span class="win-controls"><button class="win-btn" id="dtfConfirmClose" type="button" aria-label="cerrar">x</button></span>
+    </div>
+    <div class="win-body">
+      <img id="dtfPreviewImg" alt="" class="dtf-preview-img">
+      <input type="text" id="dtfNameInput" class="dtf-name-input" placeholder="nombre_de_archivo" maxlength="24">
+      <div class="dtf-confirm-actions">
+        <button id="dtfRetake" type="button">sacar otra</button>
+        <button id="dtfSave" type="button">guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<video id="dtfVideo" autoplay playsinline muted style="display:none;"></video>
+<canvas id="dtfSmall" width="80" height="60" style="display:none;"></canvas>
+
+<script src="assets/js/camera-fx.js"></script>
+<script src="assets/js/photo-store.js"></script>
 <script>
   document.querySelectorAll('.hotspot').forEach(function (h) {
     h.addEventListener('touchstart', function () {
@@ -98,6 +155,181 @@
   layout();
   window.addEventListener('resize', layout);
   window.addEventListener('orientationchange', layout);
+
+  // el fondo de la casa se va apagando al gris de la web a medida
+  // que se hace scroll — se completa cuando se scrolleó un alto de
+  // pantalla, justo cuando la sección de abajo termina de cubrirla
+  var houseFade = document.getElementById('houseFade');
+  function updateHouseFade() {
+    var dist = window.innerHeight || 1;
+    var progress = Math.min(Math.max(window.scrollY / dist, 0), 1);
+    houseFade.style.opacity = progress;
+  }
+  updateHouseFade();
+  window.addEventListener('scroll', updateHouseFade, { passive: true });
+  window.addEventListener('resize', updateHouseFade);
+
+  // "dejá tu foto" se revela suave la primera vez que entra en pantalla
+  var dtfIntro = document.getElementById('dtfIntro');
+  if ('IntersectionObserver' in window) {
+    var introObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          dtfIntro.classList.add('is-visible');
+          introObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.3 });
+    introObserver.observe(dtfIntro);
+  } else {
+    dtfIntro.classList.add('is-visible');
+  }
+
+  // ---------- dejá tu foto: cámara + captura + colección ----------
+  (function () {
+    var permissionBox = document.getElementById('dtfPermission');
+    var allowBtn = document.getElementById('dtfAllow');
+    var skipBtn = document.getElementById('dtfSkip');
+    var shutterBtn = document.getElementById('dtfShutter');
+    var caption = document.getElementById('dtfCaption');
+    var collection = document.getElementById('dtfCollection');
+    var storageNote = document.getElementById('dtfStorageNote');
+
+    var video = document.getElementById('dtfVideo');
+    var dispCanvas = document.getElementById('dtfDisplay');
+    var stream = null;
+
+    var confirmBox = document.getElementById('dtfConfirm');
+    var confirmClose = document.getElementById('dtfConfirmClose');
+    var previewImg = document.getElementById('dtfPreviewImg');
+    var nameInput = document.getElementById('dtfNameInput');
+    var retakeBtn = document.getElementById('dtfRetake');
+    var saveBtn = document.getElementById('dtfSave');
+    var pendingCapture = null;
+
+    var fx = createCameraFx({
+      video: video,
+      smallCanvas: document.getElementById('dtfSmall'),
+      dispCanvas: dispCanvas
+    });
+    fx.attachTapToCycle(function () { playShutterSound(); });
+
+    var supportsCamera = !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
+    if (!supportsCamera) allowBtn.style.display = 'none';
+
+    function startFeed() {
+      permissionBox.hidden = true;
+      dispCanvas.hidden = false;
+      shutterBtn.hidden = false;
+      caption.hidden = false;
+      fx.start();
+    }
+
+    allowBtn.addEventListener('click', function () {
+      navigator.mediaDevices.getUserMedia({
+        video: { facingMode: 'user', width: { ideal: 320 }, height: { ideal: 240 } },
+        audio: false
+      }).then(function (s) {
+        stream = s;
+        video.srcObject = s;
+        video.play().catch(function () {});
+        fx.setUsingPlaceholder(false);
+        startFeed();
+      }).catch(function () {
+        fx.setUsingPlaceholder(true);
+        startFeed();
+      });
+    });
+
+    skipBtn.addEventListener('click', function () {
+      fx.setUsingPlaceholder(true);
+      startFeed();
+    });
+
+    var lastTileRotation = 0;
+    function nextRotation() {
+      // alterna el ángulo para que no dos fotos seguidas roten igual
+      var options = [-3, 2, -1.5, 3, -2.5, 1.5];
+      lastTileRotation = (lastTileRotation + 1) % options.length;
+      return options[lastTileRotation];
+    }
+
+    function addPhotoTile(name, imageSrc) {
+      var tile = document.createElement('div');
+      tile.className = 'dtf-window dtf-photo';
+      tile.style.transform = 'rotate(' + nextRotation() + 'deg)';
+
+      var titlebar = document.createElement('div');
+      titlebar.className = 'win-titlebar';
+      var titleSpan = document.createElement('span');
+      titleSpan.className = 'win-title';
+      titleSpan.textContent = name + '.jpg';
+      titlebar.appendChild(titleSpan);
+
+      var body = document.createElement('div');
+      body.className = 'win-body';
+      var img = document.createElement('img');
+      img.className = 'dtf-photo-img';
+      img.src = imageSrc;
+      img.alt = name;
+      body.appendChild(img);
+
+      tile.appendChild(titlebar);
+      tile.appendChild(body);
+      collection.appendChild(tile);
+    }
+
+    function sanitizeName(raw) {
+      var n = (raw || '').trim();
+      if (!n) n = 'img_' + Math.floor(Math.random() * 900 + 100);
+      return n.slice(0, 24);
+    }
+
+    shutterBtn.addEventListener('click', function () {
+      pendingCapture = fx.captureDataURL('image/jpeg', 0.85);
+      previewImg.src = pendingCapture;
+      nameInput.value = '';
+      confirmBox.hidden = false;
+      fx.stop();
+      setTimeout(function () { nameInput.focus(); }, 50);
+    });
+
+    function closeConfirm(resumeFeed) {
+      confirmBox.hidden = true;
+      pendingCapture = null;
+      if (resumeFeed && !dispCanvas.hidden) fx.start();
+    }
+
+    retakeBtn.addEventListener('click', function () { closeConfirm(true); });
+    confirmClose.addEventListener('click', function () { closeConfirm(true); });
+
+    saveBtn.addEventListener('click', function () {
+      if (!pendingCapture) return;
+      var name = sanitizeName(nameInput.value);
+      saveBtn.disabled = true;
+      PhotoStore.save(name, pendingCapture).then(function () {
+        addPhotoTile(name, pendingCapture);
+        saveBtn.disabled = false;
+        closeConfirm(true);
+      }).catch(function () {
+        saveBtn.disabled = false;
+        closeConfirm(true);
+      });
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !confirmBox.hidden) closeConfirm(true);
+    });
+
+    // colección existente (de este navegador, o de todos si ya hay
+    // backend conectado — ver assets/js/photo-store.js)
+    PhotoStore.list().then(function (photos) {
+      photos.forEach(function (p) { addPhotoTile(p.name, p.image); });
+      if (!PhotoStore.isRemote()) storageNote.hidden = false;
+    }).catch(function () {
+      storageNote.hidden = false;
+    });
+  })();
 </script>
 
 </body>
